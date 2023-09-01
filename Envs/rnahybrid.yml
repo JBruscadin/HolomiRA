@@ -1,0 +1,32 @@
+name: rnahybrid
+channels:
+  - genomedk
+  - bioconda
+  - r
+  - defaults
+  - conda-forge
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - _openmp_mutex=5.1=1_gnu
+  - expat=2.4.9=h6a678d5_0
+  - fontconfig=2.14.1=h4c34cd2_2
+  - freetype=2.12.1=h4a9f257_0
+  - giflib=5.2.1=h5eee18b_3
+  - icu=58.2=he6710b0_3
+  - jpeg=9e=h5eee18b_1
+  - libgcc-ng=11.2.0=h1234567_1
+  - libgd=2.3.3=h6a678d5_2
+  - libgomp=11.2.0=h1234567_1
+  - libpng=1.6.39=h5eee18b_0
+  - libstdcxx-ng=11.2.0=h1234567_1
+  - libtiff=4.2.0=hecacb30_2
+  - libuuid=1.41.5=h5eee18b_0
+  - libwebp=1.2.4=h11a3e52_1
+  - libwebp-base=1.2.4=h5eee18b_1
+  - libxml2=2.10.3=hcbfbd50_0
+  - lz4-c=1.9.4=h6a678d5_0
+  - rnahybrid=2.1.2=h9bf148f_0
+  - xz=5.4.2=h5eee18b_0
+  - zlib=1.2.13=h5eee18b_0
+  - zstd=1.5.5=hc292b87_0
+prefix: /home/externo/jebruscadin/mambaforge/envs/rnahybrid
