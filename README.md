@@ -10,19 +10,23 @@ Snakemake recommends using mamba as the environment manager. If you don't have m
 $ conda install -n base -c conda-forge mamba
 ```
 Then, create the Snakemake environment using mamba:
-
+```shell
 $ conda activate base
 $ mamba create -c conda-forge -c bioconda -n snakemake snakemake
-
+```
 To activate the Snakemake environment, run:
 
+```shell
 $  conda activate snakemake
+```
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
 
 ## Holomira Downloading and Setup 
 **1-** Clone the HoloMirA repository and set up the environment:
 
+```bash
 git clone https://github.com/JBruscadin/HolomiRA.git
+```
 
 **2-** Customize HoloMirA by editing the configuration file ([config.yaml])(path_to_config.yaml) with your preferred text editor. 
 
@@ -43,15 +47,16 @@ Learn more about RNAHybrid parameters in the tool’s  [manual](https://bibiserv
 ## Running HoloMiRA
 
 Execute HoloMirA using Snakemake:
-
-Snakemake -s Snakefile --use-conda --cores N 
-
+```bash
+$snakemake -s Snakefile --use-conda --cores N 
+```
 If your server supports a cluster system for parallel job execution, you can use these example commands (customize according to your resources):
 
 Examples for different clusters:
+```bash
 $snakemake -s Snakefile --cluster 'sbatch -t 60 --mem=2g -c 1' -j 10
 $snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
-
+```
 For more information about cluster execution in Snakemake, refer to the [documentation]( https://snakemake.readthedocs.io/en/stable/executing/cluster.html).
 
 
