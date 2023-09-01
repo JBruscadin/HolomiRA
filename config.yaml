@@ -1,0 +1,11 @@
+fasta_dir: /projects/tematicoNelore/workspace/mags_total/ 
+out_dir: teste2
+sample_tab: mag_list.txt
+upstream: 15
+downstream: 20
+ref_mir:  bta_mirgene_170824.fas
+seed: 2,8
+energy: -18
+pvalue: 0.01
+id: mags_id_env.tsv
+environment: ["fezes", "rumen" ]
