@@ -36,7 +36,7 @@ git clone https://github.com/JBruscadin/HolomiRA.git
 * **upstream:** Upstream distance in base pairs before the CDS start position for miRNA binding site search.
 * **downstream:** Downstream distance in base pairs after the CDS start position for miRNA binding site search.
 * **ref_mir:** Host reference miRNA sequences.
-* **seed** - RNAHybrid parameter. Start nucleotide of the seed region and its length (e.g., 2,8 indicates a seed starting at nucleotide 2 with a length of 8).
+* **seed** - RNAHybrid parameter. Comma-separated start nucleotide of the seed region and its length (e.g., 2,8 indicates a seed starting at nucleotide 2 with a length of 8).
 * **energy** - RNAHybrid parameter. Maximum allowed minimum free energy for miRNA binding.
 * **pvalue** -  RNAHybrid parameter. P-value threshold for target-miRNA interaction. 
 * **id** - Tab-separated file containing MAG IDs, taxonomy, and environment/tissue info. See [example](path_to_example_file) 
