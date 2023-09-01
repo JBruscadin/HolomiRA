@@ -1,6 +1,6 @@
 # HolomiRA - Holobiome miRNA Affinity Predictor
 
-# HolomirA - Snakemake Workflow
+## HolomirA - Snakemake Workflow
 
 HoloMirA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HoloMirA. Follow this guide to set up and run HoloMirA using Snakemake.
 
