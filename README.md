@@ -22,7 +22,7 @@ For more details about Snakemake, refer to the [official documentation](https://
 ## Holomira Downloading and Setup 
 **1** Clone the HoloMirA repository and set up the environment:
 
-git clone https://github.com/username/repository-name.git
+git clone https://github.com/JBruscadin/HolomiRA.git
 
 **2 ** Customize HoloMirA by editing the configuration file ([config.yaml])(path_to_config.yaml) with your preferred text editor. 
 
