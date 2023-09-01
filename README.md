@@ -28,7 +28,7 @@ For more details about Snakemake, refer to the [official documentation](https://
 git clone https://github.com/JBruscadin/HolomiRA.git
 ```
 
-**2-** Customize HoloMirA by editing the configuration file - [config.yaml](https://github.com/JBruscadin/HolomiRA/blob/main/config.yaml) with your preferred text editor. 
+**2-** Customize HoloMirA by editing the configuration file - [config.yaml] (https://github.com/JBruscadin/HolomiRA/blob/main/config.yaml) - with your preferred text editor. 
 
 * **fasta_dir:** Path to the directory containing your fasta file.
 * **out_dir:**  Path to the desired output directory.
