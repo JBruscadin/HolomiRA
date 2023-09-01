@@ -38,7 +38,7 @@ git clone https://github.com/username/repository-name.git
 * **id** - Tab-separated file containing MAG IDs, taxonomy, and environment/tissue info. See [example](path_to_example_file) 
 * **environment** - Python list of studied environments/tissues (e.g., ["fezes", "rumen"]).
   
-Learn more about RNAHybrid parameters in the tool’s  [manual] (https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid?id=rnahybrid_manual_manual).
+Learn more about RNAHybrid parameters in the tool’s  [manual](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid?id=rnahybrid_manual_manual).
 
 ## Running HoloMiRA
 
