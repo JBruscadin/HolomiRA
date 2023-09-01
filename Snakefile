@@ -61,7 +61,7 @@ rule five_prime:
 		OUT_DIR+"/target_fasta/{sample}_CDS.fa"
 	
 	conda: "Envs/fiveprime.yml"
-	shell: """ python get_fiveprime_fa.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"""
+	shell: """ python Scripts/get_fiveprime.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"""
 
 
 rule find_targets:
@@ -83,7 +83,7 @@ rule format_rnahybrid:
 	conda: "Envs/formatOutputs.yml"
 	params: out_dir=OUT_DIR
 	output: OUT_DIR+"/rnahybrid/{sample}_bsites.tsv"
-	shell: """ python rnahybrid_format.py {wildcards.sample} {params.out_dir} {input}"""
+	shell: """ python Scripts/rnahybrid_format.py {wildcards.sample} {params.out_dir} {input}"""
 
 
 rule get_indiv_metrics:
@@ -93,7 +93,7 @@ rule get_indiv_metrics:
 	conda: "Envs/formatOutputs.yml"
 	params: out_dir=OUT_DIR,
 		id=ID
-	shell: """   python get_metrics.py {params.out_dir} {params.id} {input.file} {input.list} """
+	shell: """   python Scripts/get_metrics.py {params.out_dir} {params.id} {input.file} {input.list} """
 
 rule get_global_metrics:
 	input: files=expand("{out_dir}/rnahybrid/{sample}_finalresults.tsv", out_dir=OUT_DIR, sample=sample),
@@ -101,7 +101,7 @@ rule get_global_metrics:
 	output: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         params: out_dir=OUT_DIR
 	conda: "Envs/formatOutputs.yml"
-	shell: """   python get_all_metrics.py {params.out_dir} {input.list} {input.files} """
+	shell: """   python Scripts/get_all_metrics.py {params.out_dir} {input.list} {input.files} """
 
 
 rule summary:
@@ -116,19 +116,19 @@ rule plt_histogram:
         output: OUT_DIR+"/plots/MAG_Histograms.png"
         conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python histogram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Scripts/histogram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_venn:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: OUT_DIR+"/plots/Venn_diagram_taxonomy.png"
         conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python venndiagram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Scripts/venndiagram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_top:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: expand("{out_dir}/plots/{env}_Top_10_MAG.png", out_dir=OUT_DIR, env=ENV)
         conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python top.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Scripts/top.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
