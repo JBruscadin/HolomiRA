@@ -6,9 +6,9 @@ HoloMirA is a comprehensive tool for miRNA binding site prediction in metagenomi
 
 ## Snakemake Installation
 Snakemake recommends using mamba as the environment manager. If you don't have mamba installed, you can do so with the following command:
-
+```shell
 $ conda install -n base -c conda-forge mamba
-
+```
 Then, create the Snakemake environment using mamba:
 
 $ conda activate base
@@ -20,11 +20,11 @@ $  conda activate snakemake
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
 
 ## Holomira Downloading and Setup 
-**1** Clone the HoloMirA repository and set up the environment:
+**1-** Clone the HoloMirA repository and set up the environment:
 
 git clone https://github.com/JBruscadin/HolomiRA.git
 
-**2 ** Customize HoloMirA by editing the configuration file ([config.yaml])(path_to_config.yaml) with your preferred text editor. 
+**2-** Customize HoloMirA by editing the configuration file ([config.yaml])(path_to_config.yaml) with your preferred text editor. 
 
 * **fasta_dir:** Path to the directory containing your fasta file.
 * **out_dir:**  Path to the desired output directory.
