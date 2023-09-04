@@ -59,7 +59,40 @@ $snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 ```
 For more information about cluster execution in Snakemake, refer to the [documentation]( https://snakemake.readthedocs.io/en/stable/executing/cluster.html).
 
+## Output files
+
+Five folders will be created in your output directory, and the output files in each folder are listed below:
+**1 Annotation** 
+* It contains directories named with sample prefixes, storing various files from Prokka-implemented annotation step. 
+* In addition, HolomiRA creates new files:
+  * Prefix_cds.gff contains contigs located in coding regions;
+  * Prefix_cds_fiveprime.gff have the regions around the CDS start created based on the user-defined genomic ranges (input for miRNA target prediction);
+  * Prefix_ID.txt:
+    
+**2 Target Fasta** 
+* It contains sequence files in fasta format for all samples obtained from filtering the MAGs sequences for the regions obtained in the Annotation Step:
+    * Prefix_CDS.fa is produced from filtering MAGs for the regions from Prefix_cds.gff;
+    * Prefix_filtered.fa is produced from filtering MAGs for the regions from Prefix_cds_fiveprime.gff.
+
+**3 rnahybrid** 
+* Prefixputative_targets.tsv
+* Prefix_bsites.tsv
+* Prefix_finalresults.tsv
+
+**4 final results** 
+* HolomiRA_results.tsv
+
+**5 plots**
+* Environment_Top_10_MAG.png                      
+* Environment_Top_10_miRNAs.png                   
+* MAG_Histograms.png                        
+* MAG_result_table_summary_miRNA_Environment.tsv  
+* MAG_result_table_summary_taxonomy_Environment.tsv
+* Venn_diagram_gene.png
+* Venn_diagram_miRNA.png
+* Venn_diagram_taxonomy.png
+
 ## Acknowledgments
-This research has been facilitated by the financial support of Brazillian institutions, namely FAPESP (Foundation for Research Support of the State of São Paulo), CAPES (Coordination for the Improvement of Higher Education Personnel), and CNPq (National Council for Scientific and Technological Development). The indispensable infrastructure and resources provided by EMBRAPA (Brazilian Agricultural Research Corporation), with particular emphasis on the Embrapa Pecuária Sudeste and Embrapa Informática Agropecuária units, played an integral role in enabling the execution of this work.
+This research has been facilitated by the financial support of Brazillian institutions, namely FAPESP (Foundation for Research Support of the State of São Paulo), CAPES (Coordination for the Improvement of Higher Education Personnel), and CNPq (National Council for Scientific and Technological Development). The indispensable infrastructure and resources provided by UFSCar (Federal University of São Carlos) and EMBRAPA (Brazilian Agricultural Research Corporation), with particular emphasis on the Embrapa Pecuária Sudeste and Embrapa Informática Agropecuária units, played an integral role in enabling the execution of this work.
 
 
