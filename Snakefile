@@ -50,19 +50,32 @@ rule id:
 
 
 
-rule five_prime:
-	input: OUT_DIR+"/annotation/{sample}/{sample}_cds.gff"
-	params:
-		fasta=FASTA_DIR,
-		upstream=UPS,
-		downstream=DWNS,
-		out_dir=OUT_DIR
-	output: OUT_DIR+"/target_fasta/{sample}_filtered.fa",
-		OUT_DIR+"/target_fasta/{sample}_CDS.fa"
+#rule five_prime:
+#	input: OUT_DIR+"/annotation/{sample}/{sample}_cds.gff"
+#	params:
+#		fasta=FASTA_DIR,
+#		upstream=UPS,
+#		downstream=DWNS,
+#		out_dir=OUT_DIR
+#	output: OUT_DIR+"/target_fasta/{sample}_filtered.fa",
+#		OUT_DIR+"/target_fasta/{sample}_CDS.fa"
 	
-	conda: "Envs/fiveprime.yml"
-	shell: """ python Scripts/get_fiveprime.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"""
+#	conda: "Envs/fiveprime.yml"
+#	shell: """ python Scripts/get_fiveprime.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"""
 
+rule five_prime:
+        input: cds=OUT_DIR+"/annotation/{sample}/{sample}_cds.gff"
+                ids=OUT_DIR+"/annotation/{sample}/{sample}_IDs.txt"
+        params:
+                fasta=FASTA_DIR,
+                upstream=UPS,
+                downstream=DWNS,
+                out_dir=OUT_DIR
+        output: OUT_DIR+"/target_fasta/{sample}_filtered.fa",
+                OUT_DIR+"/target_fasta/{sample}_CDS.fa"
+
+        conda: "Envs/fiveprime.yaml"
+        shell: """ python get_fiveprime_fa.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input.cds}"""
 
 rule find_targets:
 	input: 
