@@ -122,7 +122,7 @@ rule summary:
 	output:expand("{out_dir}/plots/MAG_result_table_summary_miRNA_{env}.tsv", out_dir=OUT_DIR, env=ENV)
 	conda: "Envs/plots.yml"
 	params: out_dir=OUT_DIR
-	shell: """ python summary.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+	shell: """ python Scripts/summary.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_histogram:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
