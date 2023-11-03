@@ -62,6 +62,7 @@ For more information about cluster execution in Snakemake, refer to the [documen
 ## Output files
 
 Five folders will be created in your output directory, and the output files in each folder are listed below:
+
 **1 Annotation** 
 * It contains directories named with sample prefixes, storing various files from Prokka-implemented annotation step. 
 * In addition, HolomiRA creates new files:
