@@ -2,7 +2,7 @@
 
 ## Snakemake Workflow
 
-HoloMirA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HoloMirA. Follow this guide to set up and run HoloMirA using Snakemake.
+HolomiRA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HoloMirA. Follow this guide to set up and run HoloMirA using Snakemake.
 
 ## Snakemake Installation
 Snakemake recommends using mamba as the environment manager. If you don't have mamba installed, you can do so with the following command:
