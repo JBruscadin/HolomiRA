@@ -2,7 +2,7 @@
 
 ## Snakemake Workflow
 
-HolomiRA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HoloMirA. Follow this guide to set up and run HoloMirA using Snakemake.
+HolomiRA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HoloMirA. Follow this guide to set up and run HolomiRA using Snakemake.
 
 ## Snakemake Installation
 Snakemake recommends using mamba as the environment manager. If you don't have mamba installed, you can do so with the following command:
@@ -39,7 +39,7 @@ git clone https://github.com/JBruscadin/HolomiRA.git
 * **seed** - RNAHybrid parameter. Comma-separated start nucleotide of the seed region and its length (e.g., 2,8 indicates a seed starting at nucleotide 2 with a length of 8).
 * **energy** - RNAHybrid parameter. Maximum allowed minimum free energy for miRNA binding.
 * **pvalue** -  RNAHybrid parameter. P-value threshold for target-miRNA interaction. 
-* **id** - Tab-separated file containing MAG IDs, taxonomy, and environment/tissue info. See [example](path_to_example_file) 
+* **id** - Tab-separated file containing MAG IDs, taxonomy, and environment/tissue info.
 * **environment** - Python list of studied environments/tissues (e.g., ["fezes", "rumen"]).
   
 Learn more about RNAHybrid parameters in the tool’s  [manual](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid?id=rnahybrid_manual_manual).
