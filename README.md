@@ -75,15 +75,15 @@ Five folders will be created in your output directory, and the output files in e
     * Prefix_CDS.fa is produced from filtering MAGs for the regions from Prefix_cds.gff;
     * Prefix_filtered.fa is produced from filtering MAGs for the regions from Prefix_cds_fiveprime.gff.
 
-**3 rnahybrid** 
+**3 Rnahybrid** 
 * Prefixputative_targets.tsv
 * Prefix_bsites.tsv
 * Prefix_finalresults.tsv
 
-**4 final results** 
+**4 Final results** 
 * HolomiRA_results.tsv
 
-**5 plots**
+**5 Plots**
 * Environment_Top_10_MAG.png                      
 * Environment_Top_10_miRNAs.png                   
 * MAG_Histograms.png                        
