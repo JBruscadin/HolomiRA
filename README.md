@@ -44,6 +44,8 @@ git clone https://github.com/JBruscadin/HolomiRA.git
   
 Learn more about RNAHybrid parameters in the tool’s  [manual](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid?id=rnahybrid_manual_manual).
 
+To run the enrichment analyses performed by Super-Focus, the prebuilt databases (clusters) can be downloaded in the developer's [Github page](/https://github.com/metageni/SUPER-FOCUS). 
+
 ## Running HolomiRA
 
 Execute HoloMirA using Snakemake:
