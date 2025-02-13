@@ -39,7 +39,7 @@ for env in unique_environments:
     grouped_data_taxonomy = grouped_data_taxonomy[['MAG', 'num_Taxonomy', 'Taxonomy', 'num_unique_miRNAs', 'num_unique_genes', 'unique_miRNAs', 'unique_genes']]
 
     # Save the result to a new file named "MAG_result_table_summary_taxonomy_<environment>.tsv"
-    grouped_data_taxonomy.to_csv(f'{out_dir}/plots/MAG_result_table_summary_taxonomy_{env}.tsv', sep='\t', index=False)
+    grouped_data_taxonomy.to_csv(f'{out_dir}/final_results/MAG_result_table_summary_taxonomy_{env}.tsv', sep='\t', index=False)
 
     # Group by 'miRNA' and calculate the required information for each miRNA
     grouped_data_miRNA = subset_df.groupby('miRNA').agg({
@@ -55,9 +55,6 @@ for env in unique_environments:
     grouped_data_miRNA = grouped_data_miRNA[['miRNA', 'num_unique_Taxa','num_unique_MAG', 'num_unique_genes', 'unique_Taxa', 'unique_MAG', 'unique_genes']]
 
     # Save the result to a new file named "MAG_result_table_summary_miRNA_<environment>.tsv"
-    grouped_data_miRNA.to_csv(f'{out_dir}/plots/MAG_result_table_summary_miRNA_{env}.tsv', sep='\t', index=False)
+    grouped_data_miRNA.to_csv(f'{out_dir}/final_results/MAG_result_table_summary_miRNA_{env}.tsv', sep='\t', index=False)
 
 print("Summary tables generated and saved successfully.")
-
-
-
