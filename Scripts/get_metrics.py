@@ -14,9 +14,9 @@ list=pd.read_csv(list0, sep="\t")
 
 for index,row in list.iterrows():
     MAG_ID=row["SampleID"]
-    print(index)
+    #print(index)
 
-    print(f"Creating {MAG_ID} final results file")
+    #print(f"Creating {MAG_ID} final results file")
     a=pd.read_csv(f'{out_dir}/rnahybrid/{MAG_ID}_bsites.tsv', sep="\t").drop_duplicates()
     taxon=pd.read_csv(id, sep="\t", names=["sample", "Taxonomy", "Environment"])
     a_taxon=pd.merge(a, taxon, how="inner", on="sample").drop_duplicates()
@@ -33,5 +33,3 @@ for index,row in list.iterrows():
 
     a_taxon.rename(columns=names,inplace=True)
     a_taxon.to_csv(f"{out_dir}/rnahybrid/{MAG_ID}_finalresults.tsv", sep="\t", index=None)
-    
-
