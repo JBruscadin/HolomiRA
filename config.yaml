@@ -1,11 +1,11 @@
-fasta_dir: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/mags_papers/drep/dereplicated_genomes/
-out_dir: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/RME
-sample_tab: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/sample_tab_rme
+fasta_dir: /your_genomes_folder/
+out_dir: /path_to_output_folder/
+sample_tab: Example/sample_tab_rme
 upstream: 15
 downstream: 20
-ref_mir: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/miRNA_RME_expressed.fa
+ref_mir: Example/miRNA_RME_expressed.fa
 seed: 2,8
 energy: -18
 pvalue: 0.01
-id: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/id_bos_RME
+id: /Example/id_bos_RME
 environment: ["decrease_RME", "increase_RME"]
