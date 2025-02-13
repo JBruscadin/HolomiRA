@@ -21,5 +21,3 @@ for index,row in list.iterrows():
     indiv=pd.read_csv(path, sep="\t")
     final=pd.concat([indiv, final])
 final.drop_duplicates().to_csv(f'{out_dir}/final_results/HolomiRA_results.tsv', sep="\t", index=None)
-
-
