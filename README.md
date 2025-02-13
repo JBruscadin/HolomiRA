@@ -40,7 +40,7 @@ git clone https://github.com/JBruscadin/HolomiRA.git
 * **energy** - RNAHybrid parameter. Maximum allowed minimum free energy for miRNA binding.
 * **pvalue** -  RNAHybrid parameter. P-value threshold for target-miRNA interaction. 
 * **id** - Tab-separated file containing MAG IDs, taxonomy, and environment/tissue info.
-* **environment** - Python list of studied environments/tissues (e.g., ["fezes", "rumen"]).
+* **environment** - Python list of studied environments/tissues (e.g., ["feces", "rumen"]).
   
 Learn more about RNAHybrid parameters in the tool’s  [manual](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid?id=rnahybrid_manual_manual).
 
@@ -58,6 +58,16 @@ $snakemake -s Snakefile --cluster 'sbatch -t 60 --mem=2g -c 1' -j 10
 $snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 ```
 For more information about cluster execution in Snakemake, refer to the [documentation]( https://snakemake.readthedocs.io/en/stable/executing/cluster.html).
+
+## Processing steps
+
+** Step 1 ** Predict coding sequences from microbial genomes, implemented by Prodigal
+** Step 2 ** Select candidate target regions according to upstream and downstream distances described in the config file
+** Step 3 ** Search for host miRNAs binding sites in the candidate regions, implemented by RNAHybrid
+** Step 4 ** Get summarized metrics and plots from the results
+** Step 5 ** Functional Enrichment analysis, performed with Super-focus
+** Step 6 ** Comparative analysis between sample groups defined in the config file
+** Additional Step ** Comparative analysis between different results sets (_i.e.,_ different host genomes)
 
 ## Output files
 
