@@ -1,11 +1,11 @@
-fasta_dir: /projects/tematicoNelore/workspace/mags_total/ 
-out_dir: teste2
-sample_tab: mag_list.txt
+fasta_dir: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/mags_papers/drep/dereplicated_genomes/
+out_dir: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/RME
+sample_tab: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/sample_tab_rme
 upstream: 15
 downstream: 20
-ref_mir:  bta_mirgene_170824.fas
+ref_mir: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/miRNA_RME_expressed.fa
 seed: 2,8
 energy: -18
 pvalue: 0.01
-id: mags_id_env.tsv
-environment: ["fezes", "rumen" ]
+id: /stgTematico/projects/tematicoNelore/workspace/Taina/geracao/holomira_assoc_mags/id_bos_RME
+environment: ["decrease_RME", "increase_RME"]
