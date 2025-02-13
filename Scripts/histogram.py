@@ -24,19 +24,25 @@ counts.reset_index(inplace=True)
 # Unpivot the data to use 'Variable' for the types (miRNA, Gene, MAG, Taxonomy)
 counts = pd.melt(counts, id_vars='Environment', var_name='Variable', value_name='Counts')
 
+# Plot the barplot
+plt.figure(figsize=(9, 6))
+sns.set(style="white")  # No grid lines
+
 # Create the plot using Seaborn
 plt.figure(figsize=(12, 6))
-sns.barplot(data=counts, x='Variable', y='Counts', hue='Environment')
-plt.title('')
-plt.xlabel('Variable')
-plt.ylabel('Counts')
+sns.barplot(data=counts, x='Variable', y='Counts', hue='Environment', palette='deep')
+plt.title('Unique Number of miRNAs, Genes, MAGs, and Taxonomies', fontsize='16')
+plt.xlabel('Category', fontsize=14)
+plt.ylabel('Unique Count', fontsize=14)
 
 # Add count numbers on top of each bar
 for p in plt.gca().patches:
     height = p.get_height()
-    plt.gca().annotate(f'{int(height)}', (p.get_x() + p.get_width() / 2., height),
-                       ha='center', va='bottom')
-    
+    plt.gca().annotate(f'{int(p.get_height())}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                ha='center', va='baseline', fontsize=12, color='black', xytext=(0, 5),
+                textcoords='offset points')
+                     
+
 # Save the plot
 plt.savefig(f'{out_dir}/plots/MAG_Histograms.png')
 print("Histograms generated and saved successfully.")
