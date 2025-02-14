@@ -1,11 +1,11 @@
 fasta_dir: /your_genomes_folder/
 out_dir: /path_to_output_folder/
-sample_tab: Example/sample_tab_rme
+sample_tab: Examples/sample_tab_rme
 upstream: 15
 downstream: 20
-ref_mir: Example/miRNA_RME_expressed.fa
+ref_mir: Examples/miRNA_RME_expressed.fa
 seed: 2,8
 energy: -18
 pvalue: 0.01
-id: /Example/id_bos_RME
+id: Examples/id_bos_RME
 environment: ["decrease_RME", "increase_RME"]
