@@ -100,16 +100,14 @@ Five folders will be created in your output directory, and the output files in e
 
 **4 Final results** 
 * HolomiRA_results.tsv
-
+* MAG_result_table_summary_miRNA_{phenotype}.tsv
+* MAG_result_table_summary_taxonomy_{phenotype}.tsv
+* venn_summary.txt
+  
 **5 Plots**
-* Environment_Top_10_MAG.png                      
-* Environment_Top_10_miRNAs.png                   
-* MAG_Histograms.png                        
-* MAG_result_table_summary_miRNA_Environment.tsv  
-* MAG_result_table_summary_taxonomy_Environment.tsv
-* Venn_diagram_gene.png
-* Venn_diagram_miRNA.png
-* Venn_diagram_taxonomy.png
+* {phenotype}_Top_20_miRNAs_and_MAGs.png
+* MAG_Histograms.png
+* Venn_diagram_combined.png
 
 ## Acknowledgments
 This research has been facilitated by the financial support of Brazillian institutions, namely FAPESP (Foundation for Research Support of the State of São Paulo), CAPES (Coordination for the Improvement of Higher Education Personnel), and CNPq (National Council for Scientific and Technological Development). The indispensable infrastructure and resources provided by UFSCar (Federal University of São Carlos) and EMBRAPA (Brazilian Agricultural Research Corporation), with particular emphasis on the Embrapa Pecuária Sudeste and Embrapa Informática Agropecuária units, played an integral role in enabling the execution of this work.
