@@ -77,7 +77,7 @@ for MAG_folder in MAG_folders:
 
     gff_file = os.path.join(MAG_folder, f"{MAG_name}_cds.gff")
     if not os.path.exists(gff_file):
-        print(f"?? WARNING: GFF file {gff_file} not found. Skipping {MAG_name}.")
+        print(f"WARNING: GFF file {gff_file} not found. Skipping {MAG_name}.")
         continue
 
     df = pd.read_csv(
@@ -96,11 +96,11 @@ for MAG_folder in MAG_folders:
         bed_file_path = os.path.join(output_dir_env, f"temp_{MAG_name}_{environment}.bed")
         contig_for_path = os.path.join(output_dir_env, f"contigs_for_{MAG_name}.txt")
 
-        # Criar BED file e contigs_for_* apenas com dados do próprio MAG
+        # Create BED file and contigs_for_* only with data from the respective MAG
         with open(bed_file_path, 'w') as bed_file, open(contig_for_path, 'w') as contig_file:
             for contig, start_gene, end_gene in mag_dict[MAG_name]:
                 bed_file.write(f"{contig}\t{start_gene-1}\t{end_gene}\n")  # BED format is 0-based
-                contig_file.write(f"{contig} {start_gene} {end_gene}\n")  # Incluir coordenadas no contig_for_*
+                contig_file.write(f"{contig} {start_gene} {end_gene}\n")  # Include coordinates in contig_for_*
 
         input_fasta = os.path.join(MAG_folder, f"{MAG_name}.fna")
         output_fa = os.path.join(output_dir_env, f"temp_{MAG_name}_affected_cds.fasta")
@@ -111,35 +111,99 @@ for MAG_folder in MAG_folders:
 
         all_affected_cds_files.setdefault(environment, {}).setdefault(MAG_name, []).append(output_fa)
 
-# **Merge FASTA files per MAG**
+# **Merge FASTA files per MAG — avoiding duplicated headers**
 for environment, mag_dict in all_affected_cds_files.items():
     for mag_name, fasta_files in mag_dict.items():
         mag_output_fa = os.path.join(out_dir, f"function/MAGs_{environment}/merged_{mag_name}_{environment}.fasta")
+        seen_headers = set()
+
         with open(mag_output_fa, 'w') as merged_file:
             for fasta_file in fasta_files:
-                if os.path.exists(fasta_file):
-                    with open(fasta_file, 'r') as f:
-                        merged_file.write(f.read())
+                if not os.path.exists(fasta_file):
+                    continue
 
-# **Merge FASTA files per miRNA**
+                with open(fasta_file, 'r') as f:
+                    sequence_data = f.read().split('>')[1:]  # skip empty first part
+
+                    for seq in sequence_data:
+                        header, sequence = seq.split("\n", 1)
+                        header = header.strip()
+                        sequence = sequence.replace("\n", "")
+
+                        if header not in seen_headers:
+                            merged_file.write(f">{header}\n{sequence}\n")
+                            seen_headers.add(header)
+                        else:
+                            print(f"Duplicate sequence skipped in {mag_name}: {header}")
+
+# Function to match contig:start-end with tolerance of ±1 position
+def matches_header(header, contig, start, end):
+    try:
+        contig_h, coords = header.split(":")
+        start_h, end_h = map(int, coords.split("-"))
+        return (
+            contig == contig_h and
+            abs(start_h - start) <= 1 and
+            abs(end_h - end) <= 1
+        )
+    except Exception:
+        return False
+
+# === Filter and merge FASTA files per miRNA ===
 for mirna_name, env_dict in contig_sets_by_mirna.items():
     for environment, mirna_contigs in env_dict.items():
-        mirna_fasta_files = []
+        filtered_sequences = []
+        already_added_headers = set()
+        mirna_contigs_file_path = os.path.join(out_dir, f"function/miRNA_{environment}/contigs_for_{mirna_name}.txt")
 
-        # Get affected MAGs for this miRNA
-        for mag_name, contig, start_gene, end_gene in mirna_contigs:
+        os.makedirs(os.path.dirname(mirna_contigs_file_path), exist_ok=True)
+
+        print(f"Processing miRNA: {mirna_name} in {environment}")
+
+        # Save expected contig+coords
+        contig_coords_list = []
+        with open(mirna_contigs_file_path, 'w') as contig_file:
+            for mag_name, contig, start_gene, end_gene in mirna_contigs:
+                contig_file.write(f"{contig} {start_gene} {end_gene}\n")
+                contig_coords_list.append((contig, start_gene, end_gene))
+
+        # Scan MAG FASTAs
+        for mag_name, _, _, _ in mirna_contigs:
             mag_fasta_path = os.path.join(out_dir, f"function/MAGs_{environment}/merged_{mag_name}_{environment}.fasta")
-            if os.path.exists(mag_fasta_path):
-                mirna_fasta_files.append(mag_fasta_path)
 
-        # Merge affected MAGs into one miRNA FASTA
-        if mirna_fasta_files:
+            if not os.path.exists(mag_fasta_path):
+                continue
+
+            print(f"Scanning FASTA: {mag_fasta_path}")
+
+            with open(mag_fasta_path, 'r') as fasta_file:
+                sequence_data = fasta_file.read().split('>')[1:]  # Skip first empty item
+
+                for seq in sequence_data:
+                    header, sequence = seq.split("\n", 1)
+                    header = header.strip()
+                    sequence = sequence.replace("\n", "")
+
+                    for contig, start_gene, end_gene in contig_coords_list:
+                        if matches_header(header, contig, start_gene, end_gene):
+                            if header not in already_added_headers:
+                                filtered_sequences.append(f">{header}\n{sequence}\n")
+                                already_added_headers.add(header)
+                                print(f"Added unique match: {header}")
+                            else:
+                                print(f"Skipping duplicate: {header}")
+                            break  # Once matched, stop checking this sequence
+
+        # Save FASTA if matches found
+        if filtered_sequences:
             mirna_output_fa = os.path.join(out_dir, f"function/miRNA_{environment}/merged_miRNA_{mirna_name}_{environment}.fasta")
-            os.makedirs(os.path.dirname(mirna_output_fa), exist_ok=True)
             with open(mirna_output_fa, 'w') as merged_file:
-                for fasta_file in mirna_fasta_files:
-                    with open(fasta_file, 'r') as f:
-                        merged_file.write(f.read())
+                merged_file.writelines(filtered_sequences)
+
+            print(f"Saved {len(filtered_sequences)} unique sequences to {mirna_output_fa}")
+        else:
+            print(f"WARNING: No matching sequences found for {mirna_name} in {environment}")
+
 
 # Cleanup temporary files
 for temp_file in glob.glob(os.path.join(out_dir, "function/*/temp_*.fasta")) + \
@@ -147,8 +211,7 @@ for temp_file in glob.glob(os.path.join(out_dir, "function/*/temp_*.fasta")) + \
                   glob.glob(os.path.join(out_dir, "annotation/*/temp_*.gff")):
     os.remove(temp_file)
 
-# control -  temp_merged_affected_cds.fasta "Done!"
+# Control - temp_merged_affected_cds.fasta "Done!"
 final_status_file = os.path.join(out_dir, "function/temp_merged_affected_cds.fasta")
 with open(final_status_file, 'w') as f:
     f.write("Done!\n")
-            
