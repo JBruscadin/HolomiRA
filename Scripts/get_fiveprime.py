@@ -6,7 +6,7 @@ from pybedtools import featurefuncs
 import os
 import pysam
 
-#incluir variáveis do bash
+#include bash variables
 sample = sys.argv[1]
 fasta_dir = sys.argv[2]
 upstream = int(sys.argv[3])
