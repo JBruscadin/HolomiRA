@@ -116,9 +116,7 @@ rule aggregate_finalresults:
     output:
         OUT_DIR + "/rnahybrid/finalresults.txt"
     run:
-        # Verifique se o arquivo de saída já existe
         if not os.path.exists(output[0]):
-            # Concatene todos os arquivos {sample}_finalresults.tsv em um único arquivo
             with open(output[0], 'w') as output_file:
                 for input_file in input:
                     with open(input_file, 'r') as input_file:
@@ -162,7 +160,6 @@ rule plt_top:
         params: out_dir=OUT_DIR
         shell: """ python Scripts/plots_byMir_byMAG.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
-# Definindo regra impacted
 rule impacted:
     input:
         config["out_dir"] + "/final_results/HolomiRA_results.tsv",
@@ -173,25 +170,22 @@ rule impacted:
     shell:
         """python Scripts/impacted.py {input} {params.out_dir}"""
 
-# Definindo regra prep_superfocus
 rule prep_superfocus:
     input: config["out_dir"] + "/function/temp_merged_affected_cds.fasta"
     output: miRNA=config["out_dir"] + "/function/temp_concat_end_miRNA", MAG=config["out_dir"] + "/function/temp_concat_end_MAG"
     params: out_dir=config["out_dir"]
     shell: "python Scripts/prep_superfocus.py {params.out_dir}"
 
-# Definindo regra run_superfocus_MAG
 rule run_superfocus_MAG:
     input:
-        config["out_dir"] + "/function/temp_concat_end_MAG"  # Saída da regra prep_superfocus
+        config["out_dir"] + "/function/temp_concat_end_MAG"  
     output:
-        # Defina um arquivo geral de controle, sem expand
         config["out_dir"] + "/function/output_all_levels_and_function_done_mags.txt"
     params:
         out_dir = config["out_dir"]
     shell:
         """
-        # Iterar apenas nos diretórios que seguem o padrão MAGs_*, excluindo arquivos .txt e .fasta
+       
         for dir in {params.out_dir}/function/MAGs_*; do
             # Verifica se é realmente um diretório
             if [ -d "$dir" ]; then
@@ -199,29 +193,27 @@ rule run_superfocus_MAG:
                 superfocus -q $dir -dir $dir -a diamond
             fi
         done
-        # Criar um arquivo de controle indicando que o processo foi concluído
+        
         touch {output}
         """
 
-# Definindo regra run_superfocus_miRNA
 rule run_superfocus_miRNA:
     input:
-        config["out_dir"] + "/function/temp_concat_end_miRNA"  # Saída da regra prep_superfocus
+        config["out_dir"] + "/function/temp_concat_end_miRNA"  
     output:
-        # Defina um arquivo geral de controle, sem expand
         config["out_dir"] + "/function/output_all_levels_and_function_done_mirna.txt"
     params:
         out_dir = config["out_dir"]
     shell:
         """
-        # Iterar apenas nos diretórios que seguem o padrão miRNA_*, excluindo arquivos .txt e .fasta
+        
         for dir in {params.out_dir}/function/miRNA_*; do
-            # Verifica se é realmente um diretório
+            
             if [ -d "$dir" ]; then
-                echo "Processando $dir"
+                echo "Processing $dir"
                 superfocus -q $dir -dir $dir -a diamond
             fi
         done
-        # Criar um arquivo de controle indicando que o processo foi concluído
+        
         touch {output}
         """
