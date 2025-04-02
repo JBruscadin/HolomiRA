@@ -5,11 +5,8 @@ import matplotlib.pyplot as plt
 from matplotlib_venn import venn2, venn3
 import warnings
 import sys
-##HolomiRA: Histograms
 
-# Read the all_results.tsv file into a pandas DataFrame
-#df = pd.read_csv('HolomiRA_results.tsv', sep='\t')
-
+# Read the HolomiRA_results.tsv file into a pandas DataFrame
 input_file=sys.argv[1]
 out_dir=sys.argv[2]
 
