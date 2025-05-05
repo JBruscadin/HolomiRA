@@ -1,0 +1,10 @@
+name: rnaup
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.7
+  - viennarna=2.5.1
+  - biopython
+  - pandas

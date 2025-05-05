@@ -3,14 +3,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import sys
 
-# Input file and output directory from command line arguments
+# --- Input file and output directory from command line arguments ---
 input_file = sys.argv[1]
 out_dir = sys.argv[2]
 
-# Load the main data
+# --- Load the main data ---
 df = pd.read_csv(input_file, sep='\t')
 
-# Get unique environments
+# --- Get unique environments ---
 unique_environments = df['Environment'].unique()
 
 def generate_plots(env, file_prefix, output_prefix):
@@ -54,7 +54,7 @@ def generate_plots(env, file_prefix, output_prefix):
             spine.set_linewidth(2)
 
         # Plot 4: Top 20 MAGs by number of target genes
-        sns.barplot(x='num_unique_genes', y='MAG', data=df_mag_genes_top20, color='#DD8452', ax=axs[1, 1])
+        sns.barplot(x='num_unique_genes', y='MAG', data=df_mag_genes_top20, color='#C44E52', ax=axs[1, 1])
         axs[1, 1].set_title('Top 20 MAGs by number of target genes', fontsize=14)
         axs[1, 1].set_xlabel('Gene Count', fontsize=12)
         axs[1, 1].set_ylabel('MAG', fontsize=12)
@@ -76,6 +76,6 @@ def generate_plots(env, file_prefix, output_prefix):
     except Exception as e:
         print(f"Error while generating plots for {env}: {e}")
 
-# Loop over each unique environment and generate the plots
+# --- Loop over each unique environment and generate the plots ---
 for env in unique_environments:
     generate_plots(env, f'{out_dir}/final_results/MAG_result_table_summary_miRNA', f'{out_dir}/final_results/MAG_result_table_summary_taxonomy')

@@ -6,7 +6,7 @@ from pybedtools import featurefuncs
 import os
 import pysam
 
-#include bash variables
+# --- incluir variáveis do bash ---
 sample = sys.argv[1]
 fasta_dir = sys.argv[2]
 upstream = int(sys.argv[3])
@@ -17,7 +17,6 @@ gff=sys.argv[6]
 
 a=BedTool(gff)
 fasta=f"{fasta_dir}/{sample}.fa"
-
 
 b=a.each(pybedtools.featurefuncs.five_prime, upstream, downstream, add_to_name=None, genome=None).saveas(f"{out_dir}/annotation/{sample}/{sample}_cds_fiveprime.gff")
 

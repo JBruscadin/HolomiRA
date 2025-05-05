@@ -9,21 +9,21 @@ import os
 input_file = sys.argv[1]
 out_dir = sys.argv[2]
 
-# Read the all_results.tsv file into a pandas DataFrame
+# --- Read the all_results.tsv file into a pandas DataFrame ---
 df = pd.read_csv(input_file, sep='\t')
 
-# Get the unique values in the 'Environment' column
+# --- Get the unique values in the 'Environment' column ---
 unique_environments = df['Environment'].unique()
 
-# Create the output directory if it doesn't exist
+# --- Create the output directory if it doesn't exist ---
 final_results_dir = os.path.join(out_dir, 'final_results')
 if not os.path.exists(final_results_dir):
     os.makedirs(final_results_dir)
 
-# Extract the "deep" color palette from Seaborn
+# --- Extract the "deep" color palette from Seaborn ---
 palette = sns.color_palette("deep")
 
-# Function to create combined Venn diagrams with aligned titles
+# --- Function to create combined Venn diagrams with aligned titles ---
 def create_combined_venn_diagram(df, unique_environments):
     # Create sets for unique miRNA, Gene, and Taxonomy for each environment
     mirna_sets = [set(df[df['Environment'] == env]['miRNA']) for env in unique_environments]
@@ -112,10 +112,9 @@ def create_combined_venn_diagram(df, unique_environments):
     plt.savefig(f'{out_dir}/plots/Venn_diagram_combined.png')
     plt.close()  # Close the plot to avoid display issues
 
-# Check the number of unique environments
+# --- Check the number of unique environments
 num_environments = len(unique_environments)
 
-# Check the number of environments and call the function accordingly
 if num_environments == 1:
     print("Error: Only one environment found.")
 elif num_environments > 3:

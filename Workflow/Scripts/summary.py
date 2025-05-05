@@ -9,18 +9,14 @@ import sys
 ##HolomiRA: summaries tables
 input_file=sys.argv[1]
 out_dir=sys.argv[2]
-
-###Summary Tables:
-#Two output files are expected for each environment provided by the user.
-#One summarizes data by miRNA, and another summarizes data by MAG.
-    
-# Read the final file into a pandas DataFrame
+ 
+# --- Read the final file into a pandas DataFrame ---
 df = pd.read_csv(input_file, sep='\t')
 
-# Get the unique values in the 'Environment' column
+# --- Get the unique values in the 'Environment' column ---
 unique_environments = df['Environment'].unique()
 
-# Loop over each unique environment and perform the grouping and calculations
+# --- Loop over each unique environment and perform the grouping and calculations ---
 for env in unique_environments:
     # Create a subset DataFrame for the current environment
     subset_df = df[df['Environment'] == env]

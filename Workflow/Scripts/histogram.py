@@ -1,45 +1,45 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib.pyplot as plt
-from matplotlib_venn import venn2, venn3
-import warnings
 import sys
 
-# Read the HolomiRA_results.tsv file into a pandas DataFrame
-input_file=sys.argv[1]
-out_dir=sys.argv[2]
+# ---  Input arguments ---
+input_file = sys.argv[1] 
+out_dir = sys.argv[2]
 
+# --- Read input data ---
 df = pd.read_csv(input_file, sep='\t')
 
-# Calculate the total number of unique miRNA, gene, MAG and Taxonomy for each Environment
-counts = df.groupby(['Environment'])[['miRNA', 'Gene', 'MAG', 'Taxonomy']].nunique()
+# --- Calculate unique counts per Environment ---
+counts = df.groupby('Environment')[['miRNA', 'Gene', 'MAG', 'Taxonomy']].nunique().reset_index()
 
-# Reset index to use 'Environment' as column
-counts.reset_index(inplace=True)
-
-# Unpivot the data to use 'Variable' for the types (miRNA, Gene, MAG, Taxonomy)
+# --- Reshape for plotting ---
 counts = pd.melt(counts, id_vars='Environment', var_name='Variable', value_name='Counts')
 
-# Plot the barplot
-plt.figure(figsize=(9, 6))
-sns.set(style="white")  # No grid lines
-
-# Create the plot using Seaborn
+# --- Plot ---
 plt.figure(figsize=(12, 6))
-sns.barplot(data=counts, x='Variable', y='Counts', hue='Environment', palette='deep')
-plt.title('Unique Number of miRNAs, Genes, MAGs, and Taxonomies', fontsize='16')
+sns.set(style="white")
+
+barplot = sns.barplot(data=counts, x='Variable', y='Counts', hue='Environment', palette='deep')
+plt.title('Unique Number of miRNAs, Genes, MAGs, and Taxonomies', fontsize=16)
 plt.xlabel('Category', fontsize=14)
 plt.ylabel('Unique Count', fontsize=14)
 
-# Add count numbers on top of each bar
-for p in plt.gca().patches:
+# --- Add count annotations above bars (only if > 0) ---
+for p in barplot.patches:
     height = p.get_height()
-    plt.gca().annotate(f'{int(p.get_height())}', (p.get_x() + p.get_width() / 2., p.get_height()),
-                ha='center', va='baseline', fontsize=12, color='black', xytext=(0, 5),
-                textcoords='offset points')
-                     
+    if height > 0:
+        barplot.annotate(
+            f'{int(height)}',
+            (p.get_x() + p.get_width() / 2., height),
+            ha='center', va='bottom',
+            fontsize=12, color='black',
+            xytext=(0, 5), textcoords='offset points'
+        )
 
-# Save the plot
-plt.savefig(f'{out_dir}/plots/MAG_Histograms.png')
-print("Histograms generated and saved successfully.")
+plt.tight_layout()
+plt.savefig(f"{out_dir}/plots/MAG_Histograms.png")
+print("Histogram plot saved successfully.")

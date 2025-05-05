@@ -8,40 +8,39 @@ import pandas as pd
 import subprocess
 import warnings
 
-# Get input file and output directory from command-line arguments
+# ---  Get input file and output directory from command-line arguments ---
 if len(sys.argv) < 3:
-    print("Usage: python impacted.py <input_file> <output_directory>")
     sys.exit(1)
 
 input_file = sys.argv[1]
 out_dir = sys.argv[2]
 
-# Create output directories if they do not exist
+# ---  Create output directories if they do not exist ---
 output_dir_function = os.path.join(out_dir, "function")
 os.makedirs(output_dir_function, exist_ok=True)
 
-# Dictionaries to store contigs per miRNA and MAGs per environment
+# ---  Dictionaries to store contigs per miRNA and MAGs per environment ---
 contig_sets_by_mirna = {}
 mag_sets_by_environment = {}
 
-print(f"?? Reading input file: {input_file}")
+print(f"Reading input file: {input_file}")
 
-# Check if the input file exists
+# ---  Check if the input file exists ---
 if not os.path.exists(input_file):
-    print(f"?? ERROR: Input file {input_file} does not exist.")
+    print(f"ERROR: Input file {input_file} does not exist.")
     sys.exit(1)
 
-# Read input file with UTF-8 encoding
+# --- Read input file ---
 with open(input_file, 'r', encoding='utf-8', errors='replace') as file:
     header = file.readline().strip().split('\t')  # Read and identify header
-    print(f"?? Detected header ({len(header)} columns): {header}")
+    print(f"Detected header ({len(header)} columns): {header}")
 
     for line_number, line in enumerate(file, start=2):
         columns = line.strip().split('\t')
 
-        # Ensure the line has exactly 15 columns
-        if len(columns) != 15:
-            print(f"?? ERROR: Line {line_number} has {len(columns)} columns instead of 15. Skipping: {columns}")
+        # Ensure the line has exactly 16 columns
+        if len(columns) != 22:
+            print(f"ERROR: Line {line_number} has {len(columns)} columns instead of 22. Skipping: {columns}")
             continue
 
         try:
@@ -52,7 +51,7 @@ with open(input_file, 'r', encoding='utf-8', errors='replace') as file:
             mirna_name   = columns[4]  # miRNA name
             environment  = columns[14]  # Environment
         except ValueError as e:
-            print(f"?? ERROR: Line {line_number} contains invalid values! {e} -> {columns}")
+            print(f"ERROR: Line {line_number} contains invalid values! {e} -> {columns}")
             continue
 
         # Store data for miRNAs
@@ -65,9 +64,8 @@ with open(input_file, 'r', encoding='utf-8', errors='replace') as file:
             (contig_value, start_gene, end_gene)
         )
 
-######################
-# ?? EXTRACTING FASTA SEQUENCES FOR EACH MAG
-######################
+# --- EXTRACTING FASTA SEQUENCES FOR EACH MAG ---
+
 all_affected_cds_files = {}
 
 MAG_folders = glob.glob(os.path.join(out_dir, "annotation/*"))
@@ -111,7 +109,7 @@ for MAG_folder in MAG_folders:
 
         all_affected_cds_files.setdefault(environment, {}).setdefault(MAG_name, []).append(output_fa)
 
-# **Merge FASTA files per MAG — avoiding duplicated headers**
+# --- Merge FASTA files per MAG — avoiding duplicated headers ---
 for environment, mag_dict in all_affected_cds_files.items():
     for mag_name, fasta_files in mag_dict.items():
         mag_output_fa = os.path.join(out_dir, f"function/MAGs_{environment}/merged_{mag_name}_{environment}.fasta")
@@ -136,7 +134,7 @@ for environment, mag_dict in all_affected_cds_files.items():
                         else:
                             print(f"Duplicate sequence skipped in {mag_name}: {header}")
 
-# Function to match contig:start-end with tolerance of ±1 position
+# ---  Function to match contig:start-end with tolerance of ±1 position ---
 def matches_header(header, contig, start, end):
     try:
         contig_h, coords = header.split(":")
@@ -149,7 +147,7 @@ def matches_header(header, contig, start, end):
     except Exception:
         return False
 
-# === Filter and merge FASTA files per miRNA ===
+# ---  Filter and merge FASTA files per miRNA ---
 for mirna_name, env_dict in contig_sets_by_mirna.items():
     for environment, mirna_contigs in env_dict.items():
         filtered_sequences = []
@@ -174,7 +172,7 @@ for mirna_name, env_dict in contig_sets_by_mirna.items():
             if not os.path.exists(mag_fasta_path):
                 continue
 
-            print(f"Scanning FASTA: {mag_fasta_path}")
+            #print(f"Scanning FASTA: {mag_fasta_path}")
 
             with open(mag_fasta_path, 'r') as fasta_file:
                 sequence_data = fasta_file.read().split('>')[1:]  # Skip first empty item
@@ -189,9 +187,9 @@ for mirna_name, env_dict in contig_sets_by_mirna.items():
                             if header not in already_added_headers:
                                 filtered_sequences.append(f">{header}\n{sequence}\n")
                                 already_added_headers.add(header)
-                                print(f"Added unique match: {header}")
+                                #print(f"Added unique match: {header}")
                             else:
-                                print(f"Skipping duplicate: {header}")
+                                #print(f"Skipping duplicate: {header}")
                             break  # Once matched, stop checking this sequence
 
         # Save FASTA if matches found
@@ -200,18 +198,18 @@ for mirna_name, env_dict in contig_sets_by_mirna.items():
             with open(mirna_output_fa, 'w') as merged_file:
                 merged_file.writelines(filtered_sequences)
 
-            print(f"Saved {len(filtered_sequences)} unique sequences to {mirna_output_fa}")
+            #print(f"Saved {len(filtered_sequences)} unique sequences to {mirna_output_fa}")
         else:
-            print(f"WARNING: No matching sequences found for {mirna_name} in {environment}")
+            #print(f"WARNING: No matching sequences found for {mirna_name} in {environment}")
 
 
-# Cleanup temporary files
+# ---  Cleanup temporary files ---
 for temp_file in glob.glob(os.path.join(out_dir, "function/*/temp_*.fasta")) + \
                   glob.glob(os.path.join(out_dir, "function/MAGs_*/temp_*.bed")) + \
                   glob.glob(os.path.join(out_dir, "annotation/*/temp_*.gff")):
     os.remove(temp_file)
 
-# Control - temp_merged_affected_cds.fasta "Done!"
+# ---  Control - temp_merged_affected_cds.fasta "Done!" ---
 final_status_file = os.path.join(out_dir, "function/temp_merged_affected_cds.fasta")
 with open(final_status_file, 'w') as f:
     f.write("Done!\n")

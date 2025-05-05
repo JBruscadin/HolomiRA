@@ -4,27 +4,27 @@ import glob
 import pandas as pd
 import sys
 
-# Get the output directory from the command line arguments
+# --- Get the output directory from the command line arguments ---
 out_dir = sys.argv[1]
 
-# Input file: HolomiRA results
+# --- Input file: HolomiRA results ---
 input_file = os.path.join(out_dir, "final_results/HolomiRA_results.tsv")
 
-# Ensure the input file exists
+# --- Ensure the input file exists ---
 if not os.path.exists(input_file):
     print(f"Error: {input_file} does not exist.")
     sys.exit(1)
 
-# Read the HolomiRA results to extract MAGs and miRNA names
+# --- Read the HolomiRA results to extract MAGs and miRNA names ---
 holomira_results = pd.read_csv(input_file, sep="\t")
 MAG_names = set(holomira_results["MAG"].dropna().unique())  # Ensure no NaN values
 miRNA_names = set(holomira_results["miRNA"].dropna().unique())
 
-# Identify all environments dynamically from the folder names
+# --- Identify all environments dynamically from the folder names ---
 environment_dirs = glob.glob(os.path.join(out_dir, "function/miRNA_*"))
 environments = [os.path.basename(d).replace("miRNA_", "") for d in environment_dirs]
 
-# Initialize lists to collect all concatenated files from all environments
+# --- Initialize lists to collect all concatenated files from all environments ---
 all_miRNA_files = []
 all_MAG_files = []
 
@@ -75,11 +75,11 @@ for environment in environments:
         else:
             print(f"Skipping MAG: {MAG_name} as no contigs are present in {by_MAG_dir} for environment: {environment}")
 
-# Create the general control files for miRNA and MAG concatenated results (no environment separation)
+# --- Create the general control files for miRNA and MAG concatenated results (no environment separation) ---
 miRNA_control_file = os.path.join(out_dir, "function/temp_concat_end_miRNA")
 MAG_control_file = os.path.join(out_dir, "function/temp_concat_end_MAG")
 
-# Write the list of all concatenated miRNA fasta files to the general control file
+# ---  Write the list of all concatenated miRNA fasta files to the general control file ---
 with open(miRNA_control_file, "w") as control_file:
     if all_miRNA_files:
         for file_path in all_miRNA_files:
@@ -87,7 +87,7 @@ with open(miRNA_control_file, "w") as control_file:
     else:
         print("No concatenated miRNA files found to write in general control file.")
 
-# Write the list of all concatenated MAG fasta files to the general control file
+# ---  Write the list of all concatenated MAG fasta files to the general control file ---
 with open(MAG_control_file, "w") as control_file:
     if all_MAG_files:
         for file_path in all_MAG_files:

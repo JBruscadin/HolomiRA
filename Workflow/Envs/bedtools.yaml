@@ -1,0 +1,10 @@
+name: bedtools_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - bedtools
+  - pandas
+  - pybedtools
+  - python=3.9
