@@ -1,0 +1,9 @@
+name: HolomiRA
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11
+  - snakemake=7.32.3
+  - conda=24.7.1
