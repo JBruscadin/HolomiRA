@@ -4,7 +4,4 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - bedtools
-  - pandas
-  - pybedtools
-  - python=3.9
+  - bedtools=2.30.0

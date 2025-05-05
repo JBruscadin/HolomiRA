@@ -1,10 +1,9 @@
-name: rnaup
+name: rnaup_env
 channels:
   - bioconda
   - conda-forge
   - defaults
 dependencies:
-  - python>=3.7
+  - python=3.10
   - viennarna=2.5.1
-  - biopython
   - pandas

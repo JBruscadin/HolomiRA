@@ -19,23 +19,22 @@ sample=sample_tab["SampleID"].drop_duplicates().to_list()
 
 rule all:
     input:
-        expand(OUT_DIR + "/rnahybrid/{sample}_putative_targets.tsv", sample=sample),
-        expand(OUT_DIR + "/rnahybrid/{sample}_bsites.tsv", sample=sample),
-        expand("{out_dir}/rnahybrid/{sample}_finalresults.tsv", out_dir=OUT_DIR, sample=sample),
-        OUT_DIR + "/structure/sig_hits.fasta",
-        expand(OUT_DIR + "/RNAup/{sample}/.done", sample=sample),
-		OUT_DIR + "/RNAup/RNAup_summary_results.tsv",
-        OUT_DIR + "/final_results/HolomiRA_results.tsv",
-        expand("{out_dir}/final_results/MAG_result_table_summary_miRNA_{env}.tsv", out_dir=OUT_DIR, env=ENV),
-        OUT_DIR + "/plots/MAG_Histograms.png",
-        OUT_DIR + "/plots/Venn_diagram_combined.png",
-        expand("{out_dir}/plots/{env}_Top_20_miRNAs_and_MAGs.png", out_dir=OUT_DIR, env=ENV),
-        config["out_dir"] + "/function/temp_merged_affected_cds.fasta",
-        config["out_dir"] + "/function/temp_concat_end_MAG",
-        config["out_dir"] + "/function/temp_concat_end_miRNA",
-        config["out_dir"] + "/function/output_all_levels_and_function_done_mags.txt",
-        config["out_dir"] + "/function/output_all_levels_and_function_done_mirna.txt"
-
+        expand(f"{OUT_DIR}/rnahybrid/{{sample}}_putative_targets.tsv", sample=sample),
+        expand(f"{OUT_DIR}/rnahybrid/{{sample}}_bsites.tsv", sample=sample),
+        expand(f"{OUT_DIR}/rnahybrid/{{sample}}_finalresults.tsv", sample=sample),
+        f"{OUT_DIR}/structure/sig_hits.fasta",
+        expand(f"{OUT_DIR}/RNAup/{{sample}}/.done", sample=sample),
+        f"{OUT_DIR}/RNAup/RNAup_summary_results.tsv",
+        f"{OUT_DIR}/final_results/HolomiRA_results.tsv",
+        expand(f"{OUT_DIR}/final_results/MAG_result_table_summary_miRNA_{{env}}.tsv", env=ENV),
+        f"{OUT_DIR}/plots/MAG_Histograms.png",
+        f"{OUT_DIR}/plots/Venn_diagram_combined.png",
+        expand(f"{OUT_DIR}/plots/{{env}}_Top_20_miRNAs_and_MAGs.png", env=ENV),
+        f"{OUT_DIR}/function/temp_merged_affected_cds.fasta",
+        f"{OUT_DIR}/function/temp_concat_end_MAG",
+        f"{OUT_DIR}/function/temp_concat_end_miRNA",
+        f"{OUT_DIR}/function/output_all_levels_and_function_done_mags.txt",
+        f"{OUT_DIR}/function/output_all_levels_and_function_done_mirna.txt"
         
 rule annotate_prokka:
 	input: FASTA_DIR+"{sample}.fa"
@@ -43,7 +42,7 @@ rule annotate_prokka:
 		OUT_DIR+"/annotation/{sample}/{sample}.gff"
 
 	params: out_dir=OUT_DIR
-	conda: "Workflow/Envs/prokka.yml"
+	conda: "Envs/prokka.yml"
 	shell: 
 		"""prokka --quiet --outdir {params.out_dir}/annotation/{wildcards.sample} --prefix {wildcards.sample} --addgenes --centre X --compliant --cpus 12 {input} --force """
 
@@ -64,8 +63,8 @@ rule five_prime:
     input: OUT_DIR + "/annotation/{sample}/{sample}_IDs.txt"
     params: fasta=FASTA_DIR, upstream=UPS, downstream=DWNS, out_dir=OUT_DIR
     output: OUT_DIR + "/target_fasta/{sample}_filtered.fa", OUT_DIR + "/target_fasta/{sample}_CDS.fa"
-    conda: "Workflow/Envs/fiveprime.yml"
-    shell: "python Workflow/Scripts/get_fiveprime.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"
+    conda: "Envs/fiveprime.yml"
+    shell: "python Scripts/get_fiveprime.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"
 
 rule find_targets:
 	input: 
@@ -77,7 +76,7 @@ rule find_targets:
 		seed='-f '+SEED if SEED!='NA' else [],
 		e="-e "+str(ENERGY),
 		p="-p "+str(PVALUE)
-	conda: "Workflow/Envs/rnahybrid.yml"
+	conda: "Envs/rnahybrid.yml"
 	shell: """ RNAhybrid -s 3utr_human -c -t {input.fasta} -q {input.ref_mir} {params.seed} {params.e} {params.p} > {output} """
 
 checkpoint format_rnahybrid:
@@ -85,11 +84,11 @@ checkpoint format_rnahybrid:
         "{out_dir}/rnahybrid/{sample}_putative_targets.tsv"
     output:
         "{out_dir}/rnahybrid/{sample}_bsites.tsv"
-    conda: "Workflow/Envs/formatOutputs.yml"
+    conda: "Envs/formatOutputs.yml"
     params: out_dir=OUT_DIR
     shell:
         """
-        python Workflow/Scripts/rnahybrid_format.py {wildcards.sample} {params.out_dir} {input} > {output}
+        python Scripts/rnahybrid_format.py {wildcards.sample} {params.out_dir} {input} > {output}
         """
 rule aggregate_bsites:
     input:
@@ -107,10 +106,10 @@ rule get_indiv_metrics:
 	input: OUT_DIR + "/rnahybrid/all_bsites.txt",
 		list=config["sample_tab"]
 	output: OUT_DIR+"/rnahybrid/{sample}_finalresults.tsv"
-	conda: "Workflow/Envs/formatOutputs.yml"
+	conda: "Envs/formatOutputs.yml"
 	params: out_dir=OUT_DIR,
 		id=ID
-	shell: """   python Workflow/Scripts/get_metrics.py {params.out_dir} {params.id} {input[0]} {input.list} """
+	shell: """   python Scripts/get_metrics.py {params.out_dir} {params.id} {input[0]} {input.list} """
 
 
 
@@ -137,10 +136,10 @@ rule extract_significant_binding_windows:
         fasta_dir = OUT_DIR + "/annotation",
         prefix = OUT_DIR + "/structure/sig_hits"
     conda:
-        "Workflow/Envs/bedtools.yml"
+        "Envs/bedtools.yaml"
     shell:
         """
-        python Workflow/Scripts/generate_extended_binding_windows.py \
+        python Scripts/generate_extended_binding_windows.py \
             {input.final_results} \
             {params.fasta_dir} \
             {params.prefix}
@@ -155,12 +154,12 @@ rule prepare_rnaup_inputs:
         marker = OUT_DIR + "/RNAup/{sample}/.inputs_prepared",
         filtered = OUT_DIR + "/RNAup/{sample}/filtered.tsv"
     conda:
-        "Workflow/Envs/rnaup.yml"
+        "Envs/rnaup.yml"
     shell:
         """
         mkdir -p $(dirname {output.marker})
         awk -v sample={wildcards.sample} 'NR==1 || $1 == sample' {input.finalresults} > {output.filtered}
-        python Workflow/Scripts/prepare_rnaup_inputs.py {output.filtered} {input.mirna} {input.target_fasta} $(dirname {output.marker})
+        python Scripts/prepare_rnaup_inputs.py {output.filtered} {input.mirna} {input.target_fasta} $(dirname {output.marker})
         touch {output.marker}
         """
 
@@ -171,7 +170,7 @@ rule run_rnaup:
     output:
         done=OUT_DIR + "/RNAup/{sample}/.done"
     conda:
-        "Workflow/Envs/rnaup.yml"
+        "Envs/rnaup.yml"
     shell:
         """
         cd {OUT_DIR}/RNAup/{wildcards.sample}
@@ -193,14 +192,14 @@ rule merge_rnaup_results:
         discarded = OUT_DIR + "/final_results/HolomiRA_discarded.tsv",
         rnaup = OUT_DIR + "/RNAup/RNAup_summary_results.tsv"
     conda:
-        "Workflow/Envs/rnaup.yml"
+        "Envs/rnaup.yml"
     params:
         rnaup_dir = OUT_DIR + "/RNAup",
         output_dir = OUT_DIR + "/final_results",
         dg_cutoff = config["DGopen_cutoff"]
     shell:
         """
-        python Workflow/Scripts/merge_rnaup_results.py \
+        python Scripts/merge_rnaup_results.py \
             {params.rnaup_dir} \
             {input.finalresults} \
             {params.output_dir} \
@@ -234,30 +233,30 @@ rule cleanup:
 rule summary:
 	input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
 	output:expand("{out_dir}/final_results/MAG_result_table_summary_miRNA_{env}.tsv", out_dir=OUT_DIR, env=ENV)
-	conda: "Workflow/Envs/plots.yml"
+	conda: "Envs/plots.yml"
 	params: out_dir=OUT_DIR
-	shell: """ python Workflow/Scripts/summary.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+	shell: """ python Scripts/summary.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_histogram:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: OUT_DIR+"/plots/MAG_Histograms.png"
-        conda: "Workflow/Envs/plots.yml"
+        conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python Workflow/Scripts/histogram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Scripts/histogram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_venn:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: OUT_DIR+"/plots/Venn_diagram_combined.png"
-        conda: "Workflow/Envs/plots.yml"
+        conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python Workflow/Scripts/venndiagram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Scripts/venndiagram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_top:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: OUT_DIR+"/plots/{env}_Top_20_miRNAs_and_MAGs.png"
-        conda: "Workflow/Envs/plots.yml"
+        conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python Workflow/Scripts/plots_byMir_byMAG.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Scripts/plots_byMir_byMAG.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule impacted:
     input:
@@ -267,13 +266,13 @@ rule impacted:
     params:
         out_dir=config["out_dir"]
     shell:
-        """python Workflow/Scripts/impacted.py {input} {params.out_dir}"""
+        """python Scripts/impacted.py {input} {params.out_dir}"""
 
 rule prep_superfocus:
     input: config["out_dir"] + "/function/temp_merged_affected_cds.fasta"
     output: miRNA=config["out_dir"] + "/function/temp_concat_end_miRNA", MAG=config["out_dir"] + "/function/temp_concat_end_MAG"
     params: out_dir=config["out_dir"]
-    shell: "python Workflow/Scripts/prep_superfocus.py {params.out_dir}"
+    shell: "python Scripts/prep_superfocus.py {params.out_dir}"
 
 rule run_superfocus_MAG:
     input:
