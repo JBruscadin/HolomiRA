@@ -1,8 +1,8 @@
 fasta_dir: Example_data/Genomes_files/
 out_dir: Results
-sample_tab: Example_data/metadata_samples
+sample_tab: Example_data/samples_id
 ref_mir: Example_data/miRNAs.fa
-id: Example_data/samples_id
+id: Example_data/metadata_samples
 environment: ["Rumen", "Feces"]
 
 ##Parameters

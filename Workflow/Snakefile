@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import time
 
-configfile: "config.yaml"
+configfile: "Config/config.yaml"
 FASTA_DIR=config["fasta_dir"]
 OUT_DIR=config["out_dir"]
 UPS=config["upstream"]
@@ -24,7 +24,7 @@ rule all:
         expand("{out_dir}/rnahybrid/{sample}_finalresults.tsv", out_dir=OUT_DIR, sample=sample),
         OUT_DIR + "/structure/sig_hits.fasta",
         expand(OUT_DIR + "/RNAup/{sample}/.done", sample=sample),
-		    OUT_DIR + "/RNAup/RNAup_summary_results.tsv",
+		OUT_DIR + "/RNAup/RNAup_summary_results.tsv",
         OUT_DIR + "/final_results/HolomiRA_results.tsv",
         expand("{out_dir}/final_results/MAG_result_table_summary_miRNA_{env}.tsv", out_dir=OUT_DIR, env=ENV),
         OUT_DIR + "/plots/MAG_Histograms.png",

@@ -2,7 +2,7 @@
 
 ## Snakemake Workflow
 
-HolomiRA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HoloMirA. Follow this guide to set up and run HolomiRA using Snakemake.
+HolomiRA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HolomiRA. Follow this guide to set up and run HolomiRA using Snakemake.
 
 ## Snakemake Installation
 Snakemake recommends using mamba as the environment manager. If you don't have mamba installed, you can do so with the following command:
@@ -12,12 +12,12 @@ $ conda install -n base -c conda-forge mamba
 Then, create the Snakemake environment using mamba:
 ```shell
 $ conda activate base
-$ mamba create -c conda-forge -c bioconda -n snakemake snakemake
+$ mamba create -c conda-forge -c bioconda -n HolomiRA snakemake
 ```
 To activate the Snakemake environment, run:
 
 ```shell
-$  conda activate snakemake
+$  conda activate HolomiRA
 ```
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
 
@@ -50,7 +50,8 @@ To run the enrichment analyses performed by Super-Focus, the prebuilt databases 
 
 Execute HoloMirA using Snakemake:
 ```bash
-$snakemake -s Snakefile --use-conda --cores N 
+$ cd HolomiRA
+$ snakemake -s Workflow/Snakefile --use-conda --cores N 
 ```
 If your server supports a cluster system for parallel job execution, you can use these example commands (customize according to your resources):
 

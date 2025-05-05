@@ -1,0 +1,22 @@
+name: HolomiRA
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11
+  - snakemake
+  - mamba
+  - conda=25.3.1
+  - pandas
+  - matplotlib
+  - prokka
+  - seaborn
+  - numpy
+  - scipy
+  - scikit-learn
+  - biopython
+  - fastqc
+  - multiqc
+  - bedtools
+  - samtools
