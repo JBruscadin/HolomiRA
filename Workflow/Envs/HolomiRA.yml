@@ -5,9 +5,9 @@ channels:
   - defaults
 dependencies:
   - python=3.11
-  - snakemake
+  - snakemake=7.32.3
+  - conda=24.7.1
   - mamba
-  - conda=25.3.1
   - pandas
   - matplotlib
   - prokka
