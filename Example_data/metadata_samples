@@ -1,0 +1,10 @@
+MAG_rumen_1	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Anaerovoracaceae;g__UBA1764;s__	Rumen
+MAG_rumen_10	d__Archaea;p__Thermoplasmatota;c__Thermoplasmata_A;o__Methanomassiliicoccales;f__Methanomethylophilaceae;g__;s__	Rumen
+MAG_rumen_100	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Christensenellales;f__CAG-74;g__UBA4246;s__	Rumen
+MAG_rumen_101	d__Bacteria;p__Spirochaetota;c__Spirochaetia;o__Treponematales;f__Treponemataceae;g__Treponema_D;s__Treponema_D sp7	Rumen
+MAG_rumen_102	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__P3;g__UBA1217;s__	Rumen
+MAG_stool_1	d__Bacteria;p__Verrucomicrobiota;c__Lentisphaeria;o__UBA1784;f__UBA1829;g__UBA1732;s__	Feces
+MAG_stool_10	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Oscillospirales;f__Ruminococcaceae;g__;s__	Feces
+MAG_stool_100	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__4C28d-15;f__CAG-314;g__CAG-1435;s__	Feces
+MAG_stool_101	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__P3;g__UBA3388;s__GCA_002358835.1	Feces
+MAG_stool_102	d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__RF32;f__CAG-239;g__CAG-495;s__	Feces

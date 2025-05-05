@@ -1,11 +1,14 @@
-fasta_dir: /your_genomes_folder/
-out_dir: /path_to_output_folder/
-sample_tab: Examples/sample_tab_rme
+fasta_dir: Example_data/Genomes_files/
+out_dir: Results
+sample_tab: Example_data/metadata_samples
+ref_mir: Example_data/miRNAs.fa
+id: Example_data/samples_id
+environment: ["Rumen", "Feces"]
+
+##Parameters
 upstream: 15
 downstream: 20
-ref_mir: Examples/miRNA_RME_expressed.fa
-seed: 2,8
-energy: -18
+seed: NA
+energy: -20
 pvalue: 0.01
-id: Examples/id_bos_RME
-environment: ["decrease_RME", "increase_RME"]
+DGopen_cutoff: -15
