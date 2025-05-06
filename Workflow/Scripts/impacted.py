@@ -187,9 +187,9 @@ for mirna_name, env_dict in contig_sets_by_mirna.items():
                             if header not in already_added_headers:
                                 filtered_sequences.append(f">{header}\n{sequence}\n")
                                 already_added_headers.add(header)
-                                #print(f"Added unique match: {header}")
+                                print(f"Added unique match: {header}")
                             else:
-                                #print(f"Skipping duplicate: {header}")
+                                print(f"Skipping duplicate: {header}")
                             break  # Once matched, stop checking this sequence
 
         # Save FASTA if matches found
@@ -198,9 +198,9 @@ for mirna_name, env_dict in contig_sets_by_mirna.items():
             with open(mirna_output_fa, 'w') as merged_file:
                 merged_file.writelines(filtered_sequences)
 
-            #print(f"Saved {len(filtered_sequences)} unique sequences to {mirna_output_fa}")
+            print(f"Saved {len(filtered_sequences)} unique sequences to {mirna_output_fa}")
         else:
-            #print(f"WARNING: No matching sequences found for {mirna_name} in {environment}")
+            print(f"WARNING: No matching sequences found for {mirna_name} in {environment}")
 
 
 # ---  Cleanup temporary files ---

@@ -63,8 +63,8 @@ rule five_prime:
     input: OUT_DIR + "/annotation/{sample}/{sample}_IDs.txt"
     params: fasta=FASTA_DIR, upstream=UPS, downstream=DWNS, out_dir=OUT_DIR
     output: OUT_DIR + "/target_fasta/{sample}_filtered.fa", OUT_DIR + "/target_fasta/{sample}_CDS.fa"
-    conda: "Envs/fiveprime.yml"
-    shell: "python Scripts/get_fiveprime.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"
+    conda: "Envs/bedtools.yaml"
+    shell: "python Workflow/Scripts/get_fiveprime.py {wildcards.sample} {params.fasta} {params.upstream} {params.downstream} {params.out_dir} {input}"
 
 rule find_targets:
 	input: 
@@ -88,7 +88,7 @@ checkpoint format_rnahybrid:
     params: out_dir=OUT_DIR
     shell:
         """
-        python Scripts/rnahybrid_format.py {wildcards.sample} {params.out_dir} {input} > {output}
+        python Workflow/Scripts/rnahybrid_format.py {wildcards.sample} {params.out_dir} {input} > {output}
         """
 rule aggregate_bsites:
     input:
@@ -109,7 +109,7 @@ rule get_indiv_metrics:
 	conda: "Envs/formatOutputs.yml"
 	params: out_dir=OUT_DIR,
 		id=ID
-	shell: """   python Scripts/get_metrics.py {params.out_dir} {params.id} {input[0]} {input.list} """
+	shell: """   python Workflow/Scripts/get_metrics.py {params.out_dir} {params.id} {input[0]} {input.list} """
 
 
 
@@ -139,7 +139,7 @@ rule extract_significant_binding_windows:
         "Envs/bedtools.yaml"
     shell:
         """
-        python Scripts/generate_extended_binding_windows.py \
+        python Workflow/Scripts/generate_extended_binding_windows.py \
             {input.final_results} \
             {params.fasta_dir} \
             {params.prefix}
@@ -159,7 +159,7 @@ rule prepare_rnaup_inputs:
         """
         mkdir -p $(dirname {output.marker})
         awk -v sample={wildcards.sample} 'NR==1 || $1 == sample' {input.finalresults} > {output.filtered}
-        python Scripts/prepare_rnaup_inputs.py {output.filtered} {input.mirna} {input.target_fasta} $(dirname {output.marker})
+        python Workflow/Scripts/prepare_rnaup_inputs.py {output.filtered} {input.mirna} {input.target_fasta} $(dirname {output.marker})
         touch {output.marker}
         """
 
@@ -199,7 +199,7 @@ rule merge_rnaup_results:
         dg_cutoff = config["DGopen_cutoff"]
     shell:
         """
-        python Scripts/merge_rnaup_results.py \
+        python Workflow/Scripts/merge_rnaup_results.py \
             {params.rnaup_dir} \
             {input.finalresults} \
             {params.output_dir} \
@@ -235,28 +235,28 @@ rule summary:
 	output:expand("{out_dir}/final_results/MAG_result_table_summary_miRNA_{env}.tsv", out_dir=OUT_DIR, env=ENV)
 	conda: "Envs/plots.yml"
 	params: out_dir=OUT_DIR
-	shell: """ python Scripts/summary.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+	shell: """ python Workflow/Scripts/summary.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_histogram:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: OUT_DIR+"/plots/MAG_Histograms.png"
         conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python Scripts/histogram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Workflow/Scripts/histogram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_venn:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: OUT_DIR+"/plots/Venn_diagram_combined.png"
         conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python Scripts/venndiagram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Workflow/Scripts/venndiagram.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule plt_top:
         input: OUT_DIR+"/final_results/HolomiRA_results.tsv"
         output: OUT_DIR+"/plots/{env}_Top_20_miRNAs_and_MAGs.png"
         conda: "Envs/plots.yml"
         params: out_dir=OUT_DIR
-        shell: """ python Scripts/plots_byMir_byMAG.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
+        shell: """ python Workflow/Scripts/plots_byMir_byMAG.py {params.out_dir}/final_results/HolomiRA_results.tsv {params.out_dir} """
 
 rule impacted:
     input:
@@ -266,13 +266,13 @@ rule impacted:
     params:
         out_dir=config["out_dir"]
     shell:
-        """python Scripts/impacted.py {input} {params.out_dir}"""
+        """python Workflow/Scripts/impacted.py {input} {params.out_dir}"""
 
 rule prep_superfocus:
     input: config["out_dir"] + "/function/temp_merged_affected_cds.fasta"
     output: miRNA=config["out_dir"] + "/function/temp_concat_end_miRNA", MAG=config["out_dir"] + "/function/temp_concat_end_MAG"
     params: out_dir=config["out_dir"]
-    shell: "python Scripts/prep_superfocus.py {params.out_dir}"
+    shell: "python Workflow/Scripts/prep_superfocus.py {params.out_dir}"
 
 rule run_superfocus_MAG:
     input:

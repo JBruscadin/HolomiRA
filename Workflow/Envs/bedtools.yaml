@@ -5,3 +5,6 @@ channels:
   - defaults
 dependencies:
   - bedtools=2.30.0
+  - python=3.8
+  - pybedtools
+  - pandas

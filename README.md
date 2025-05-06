@@ -6,43 +6,49 @@ HolomiRA is a comprehensive tool for miRNA binding site prediction in metagenomi
 
 ## Snakemake Installation
 Snakemake recommends using mamba as the environment manager. If you don't have mamba installed, you can do so with the following command:
+
 ```shell
 $ conda install -n base -c conda-forge mamba
 ```
-Then, create the Snakemake environment using mamba:
-```shell
-$ conda activate base
-$ mamba create -c conda-forge -c bioconda -n HolomiRA snakemake
-```
-To activate the Snakemake environment, run:
 
+##Clone the Repository and Set Up the Environment
 ```shell
-$  conda activate HolomiRA
+git clone https://github.com/JBruscadin/HolomiRA.git
+cd HolomiRA
+mamba env create -f Workflow/Envs/HolomiRA_versions.yml
+conda activate HolomiRA
 ```
+
+
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
 
 ## HolomiRA Downloading and Setup 
-**1-** Clone the HoloMirA repository and set up the environment:
+**Clone the HoloMirA repository and set up the environment:
 
 ```bash
 git clone https://github.com/JBruscadin/HolomiRA.git
 ```
+## Configuration
+Edit the Config/config.yaml file to define your parameters
 
-**2-** Customize HoloMirA by editing the configuration file - [config.yaml](https://github.com/JBruscadin/HolomiRA/blob/main/config.yaml) - with your preferred text editor. 
-
+Mandatory parameters:
 * **fasta_dir:** Path to the directory containing your fasta file.
-* **out_dir:**  Path to the desired output directory.
-* **sample_tab:** File listing all MAGs to be analyzed. 
-* **upstream:** Upstream distance in base pairs before the CDS start position for miRNA binding site search.
-* **downstream:** Downstream distance in base pairs after the CDS start position for miRNA binding site search.
 * **ref_mir:** Host reference miRNA sequences.
-* **seed** - RNAHybrid parameter. Comma-separated start nucleotide of the seed region and its length (e.g., 2,8 indicates a seed starting at nucleotide 2 with a length of 8).
-* **energy** - RNAHybrid parameter. Maximum allowed minimum free energy for miRNA binding.
-* **pvalue** -  RNAHybrid parameter. P-value threshold for target-miRNA interaction. 
+* **sample_tab:** File listing all MAGs to be analyzed. 
 * **id** - Tab-separated file containing MAG IDs, taxonomy, and environment/tissue info.
-* **environment** - Python list of studied environments/tissues (e.g., ["feces", "rumen"]).
-  
-Learn more about RNAHybrid parameters in the tool’s  [manual](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid?id=rnahybrid_manual_manual).
+
+
+Defaults parameters
+* **out_dir:**  Path to the desired output directory. The results will be saved in the Results directory if no other path is provided.
+* **upstream:** Upstream distance in base pairs before the CDS start position for miRNA binding site search. By default, Holomira uses 15nt upstream to CDS region.
+* **downstream:** Downstream distance in base pairs after the CDS start position for miRNA binding site search. By default, Holomira uses 20nt downstream to CDS region.
+* **seed** - RNAHybrid parameter. By default, no seed region is forced. If the user finds it necessary a comma-separated start nucleotide of the seed region and its length must be provide (e.g., 2,8 indicates a seed starting at nucleotide 2 with a length of 8).
+* **energy** - RNAHybrid parameter. Maximum allowed minimum free energy for miRNA binding. By default, HolomiRA considers a cutoff point of -20
+* **pvalue** -  RNAHybrid parameter. P-value threshold for target-miRNA interaction. By default, HolomiRA considers a cutoff point of 0.01
+* **DGopen_cutoff** - RNAup parameter. Maximum allowed minimum free energy for miRNA binding. By default, HolomiRA considers a cutoff point of -10
+
+
+
 
 To run the enrichment analyses performed by Super-Focus, the prebuilt databases (clusters) can be downloaded in the developer's [Github page](/https://github.com/metageni/SUPER-FOCUS). 
 
