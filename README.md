@@ -32,10 +32,10 @@ git clone https://github.com/JBruscadin/HolomiRA.git
 Edit the Config/config.yaml file to define your parameters
 
 Mandatory parameters:
-* **fasta_dir:** Path to the directory containing your fasta file.
-* **ref_mir:** Host reference miRNA sequences.
-* **sample_tab:** File listing all MAGs to be analyzed. 
-* **id** - Tab-separated file containing MAG IDs, taxonomy, and environment/tissue info.
+* **fasta_dir:** Path to the directory containing genomes'fasta files.
+* **ref_mir:** Path for the host miRNA sequences'fasta.
+* **sample_tab:** File listing all genomes to be analyzed. 
+* **id** - Tab-separated file containing genome IDs, taxonomy, and metadata e.g., tissue type, species, phenotype.
 
 
 Defaults parameters
@@ -48,13 +48,17 @@ Defaults parameters
 * **DGopen_cutoff** - RNAup parameter. Maximum allowed minimum free energy for miRNA binding. By default, HolomiRA considers a cutoff point of -10
 
 
+To run the enrichment analyses performed by Super-Focus, others prebuilt databases (clusters) can be downloaded in the developer's [Github page](/https://github.com/metageni/SUPER-FOCUS). By default, HolomiRA provides 90 mmseqs2 version, for this:
 
-
-To run the enrichment analyses performed by Super-Focus, the prebuilt databases (clusters) can be downloaded in the developer's [Github page](/https://github.com/metageni/SUPER-FOCUS). 
+```bash
+cd Superfocus
+unzip 90_clusters.zip -d 90_clusters/
+superfocus_downloadDB -i 90_clusters/ -a diamond -c 90
+```
 
 ## Running HolomiRA
 
-Execute HoloMirA using Snakemake:
+Execute HolomiRA:
 ```bash
 $ cd HolomiRA
 $ snakemake -s Workflow/Snakefile --use-conda --cores N 
