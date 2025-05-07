@@ -1,17 +1,27 @@
 # HolomiRA - Holobiome miRNA Affinity Predictor
 
-## Snakemake Workflow
+HolomiRA is a Snakemake-based pipeline for predicting host miRNA binding sites in microbial genomes. It automates all steps, from genome annotation to interaction prediction and functional enrichment, offering a user-friendly and fully reproducible workflow.
 
-HolomiRA is a comprehensive tool for miRNA binding site prediction in metagenomic assemblies. This repository contains the Snakemake workflow implementation for HolomiRA. Follow this guide to set up and run HolomiRA using Snakemake.
+#Overview
+
+HolomiRA enables:
+
+*Identification of host miRNA binding sites in microbial coding regions.
+*Evaluation of target accessibility using RNAup.
+*Functional annotation of affected genes using SUPER-FOCUS.
+*Comparative analysis between phenotypes or environments.
 
 ## Snakemake Installation
-Snakemake recommends using mamba as the environment manager. If you don't have mamba installed, you can do so with the following command:
+1. Install Snakemake and Mamba
+
+We recommend using mamba for efficient environment management:
 
 ```shell
-$ conda install -n base -c conda-forge mamba
+conda install -n base -c conda-forge mamba
 ```
 
-##Clone the Repository and Set Up the Environment
+2. Clone the repository and set up the environment
+
 ```shell
 git clone https://github.com/JBruscadin/HolomiRA.git
 cd HolomiRA
@@ -19,36 +29,37 @@ mamba env create -f Workflow/Envs/HolomiRA_versions.yml
 conda activate HolomiRA
 ```
 
-
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
 
 ## HolomiRA Downloading and Setup 
+
 **Clone the HoloMirA repository and set up the environment:
 
 ```bash
 git clone https://github.com/JBruscadin/HolomiRA.git
 ```
 ## Configuration
-Edit the Config/config.yaml file to define your parameters
+Edit the file: Config/config.yaml
 
-Mandatory parameters:
+Required parameters:
+
 * **fasta_dir:** Path to the directory containing genomes'fasta files.
 * **ref_mir:** Path for the host miRNA sequences'fasta.
-* **sample_tab:** File listing all genomes to be analyzed. 
-* **id** - Tab-separated file containing genome IDs, taxonomy, and metadata e.g., tissue type, species, phenotype.
+* **sample_tab:** Sample list (one sample ID per line) 
+* **id:** Metadata table with genome ID, taxonomy, etc.
 
 
-Defaults parameters
-* **out_dir:**  Path to the desired output directory. The results will be saved in the Results directory if no other path is provided.
-* **upstream:** Upstream distance in base pairs before the CDS start position for miRNA binding site search. By default, Holomira uses 15nt upstream to CDS region.
-* **downstream:** Downstream distance in base pairs after the CDS start position for miRNA binding site search. By default, Holomira uses 20nt downstream to CDS region.
-* **seed** - RNAHybrid parameter. By default, no seed region is forced. If the user finds it necessary a comma-separated start nucleotide of the seed region and its length must be provide (e.g., 2,8 indicates a seed starting at nucleotide 2 with a length of 8).
-* **energy** - RNAHybrid parameter. Maximum allowed minimum free energy for miRNA binding. By default, HolomiRA considers a cutoff point of -20
-* **pvalue** -  RNAHybrid parameter. P-value threshold for target-miRNA interaction. By default, HolomiRA considers a cutoff point of 0.01
-* **DGopen_cutoff** - RNAup parameter. Maximum allowed minimum free energy for miRNA binding. By default, HolomiRA considers a cutoff point of -10
+Optional parameters (with defaults):
+* **out_dir:**  Output directory (default: Results/)
+* **upstream:** nt upstream of CDS start for binding site search (default: 15)
+* **downstream:** nt downstream of CDS start (default: 20)
+* **seed:** Comma-separated seed start and length (e.g., 2,8;1,7); (default: NA)
+* **energy:** RNAHybrid energy cutoff (default: -20)
+* **pvalue:** RNAHybrid p-value threshold (default: 0.01)
+* **DGopen_cutoff:** RNAup ΔG total cutoff for accessibility (default: -10)
 
 
-To run the enrichment analyses performed by Super-Focus, others prebuilt databases (clusters) can be downloaded in the developer's [Github page](/https://github.com/metageni/SUPER-FOCUS). By default, HolomiRA provides 90 mmseqs2 version, for this:
+**HolomiRA uses DIAMOND + MMseqs2 clusters. Download and format**
 
 ```bash
 cd Superfocus
@@ -60,67 +71,109 @@ superfocus_downloadDB -i 90_clusters/ -a diamond -c 90
 
 Execute HolomiRA:
 ```bash
-$ cd HolomiRA
-$ snakemake -s Workflow/Snakefile --use-conda --cores N 
+cd HolomiRA
+snakemake -s Workflow/Snakefile --use-conda --cores N 
 ```
 If your server supports a cluster system for parallel job execution, you can use these example commands (customize according to your resources):
 
 Examples for different clusters:
 ```bash
-$snakemake -s Snakefile --cluster 'sbatch -t 60 --mem=2g -c 1' -j 10
-$snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
+snakemake -s Snakefile --cluster 'sbatch -t 60 --mem=2g -c 1' -j 10
+snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 ```
 For more information about cluster execution in Snakemake, refer to the [documentation]( https://snakemake.readthedocs.io/en/stable/executing/cluster.html).
 
 ## Processing steps
 
-**Step 1** - Predict coding sequences from microbial genomes, implemented by Prodigal
+**Step 1**: Predict CDS using Prokka
+**Step 2**: Extract target candidate regions
+**Step 3**: Predict miRNA binding (RNAHybrid + RNAup)
+**Step 4**: Summarize and visualize interactions
+**Step 5**: Perform functional enrichment (SUPER-FOCUS)
 
-**Step 2** - Select candidate target regions according to upstream and downstream distances described in the config file
 
-**Step 3** - Search for host miRNAs binding sites in the candidate regions, implemented by RNAHybrid
+**Additional Steps** 
 
-**Step 4** - Get summarized metrics and plots from the results
+-- Additional Step 1 - Functional Enrichment Analysis (Extra Visualizations)
 
-**Step 5** - Functional Enrichment analysis, performed with Super-focus
+Usage:
 
-**Step 6** - Comparative analysis between sample groups defined in the config file
+./process_data.sh <subsystem_level_X.xls> <counts|relab> <sample_type>
+<dataset_name>
 
-**Additional Step** - Comparative analysis between different results sets (_i.e.,_ different host genomes)
+Rscript analyse_by_dataset.R <input_file> <dataset_name> <sample_type>
+<abundance_threshold> <prevalence_threshold> <top_functions> <colour_graph>
+
+Rscript comparative_statistical_analysis.R <input_data1> <dataset_name1> <input_data2>
+<dataset_name2> <sample_type> <abundance_threshold> <prevalence_threshold> <padj>
+<log_threshold> <color_data1> <color_data2> <heatmap_color>
+
+Rscript exclusive_functions.R <input_file> <dataset_name> <sample_type> <top_functions>
+<colour_graph>
+
+Practical exemplo:
+
+```bash
+$ cd HolomiRA
+mkdir ./Results/Functional_analysis
+cd ./Results/Functional_analysis
+
+#process_data
+bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/function/microbial genomes_Feces/output_subsystem_level_3.xls relab MAG Feces
+bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/function/microbial genomes_Rumen/output_subsystem_level_3.xls relab MAG Rumen
+
+#analyse_by_dataset
+Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R level_3_MAG_Feces_relab.txt Feces MAG 0.5 0.2 10 blue  
+Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R level_3_MAG_Rumen_relab.txt Rumen MAG 0.5 0.2 10 red
+
+#comparative_statistical_analysis
+Rscript ../../Additional_Steps/Functional_annotation/comparative_statistical_analysis.R level_3_MAG_Feces_relab.txt Feces  level_3_MAG_Rumen_relab.txt Rumen MAG 0.5 0.2 0.05 1 "#FF5733" "#33FF57" "purple"
+
+#exclusive_functions
+Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R exclusive_functions_MAG_level_3_decrease_RME.txt decrease_RME MAG 10 green
+Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R exclusive_functions_MAG_level_3_increase_RME.txt increase_RME  MAG 10 red
+
+```
+For complete description of parameters, please see [Functional annotation documentation](Additional_Steps/Functional_annotation/Documentation).
+
+-- Additional Step 2 - Comparative Analysis Between Results
+```bash
+cd HolomiRA
+python Additional_Steps/Comparison_species/histogram.py
+python Additional_Steps/Comparison_species/venndiagram.py
+```
 
 ## Output files
+Each subfolder in Results/ corresponds to a specific step. Example contents:
 
-Five folders will be created in your output directory, and the output files in each folder are listed below:
+**Annotation/**: Prokka results, GFF, CDS coordinates
+**Target_Fasta/**: CDS and filtered sequences
+**Rnahybrid/**: RNAHybrid output (putative target sites)
+**Structure/**: Pre-RNAup formatting files
+**RNAup/**: Accessibility results
+**Final_results/**: HolomiRA results + summary tables
+**Plots/**: miRNA-target genome visuals
+**Function/**: SuperFocus output by phenotype
 
-**1 Annotation** 
-* It contains directories named with sample prefixes, storing various files from Prokka-implemented annotation step. 
-* In addition, HolomiRA creates new files:
-  * Prefix_cds.gff contains contigs located in coding regions;
-  * Prefix_cds_fiveprime.gff have the regions around the CDS start created based on the user-defined genomic ranges (input for miRNA target prediction);
-  * Prefix_ID.txt:
-    
-**2 Target Fasta** 
-* It contains sequence files in fasta format for all samples obtained from filtering the MAGs sequences for the regions obtained in the Annotation Step:
-    * Prefix_CDS.fa is produced from filtering MAGs for the regions from Prefix_cds.gff;
-    * Prefix_filtered.fa is produced from filtering MAGs for the regions from Prefix_cds_fiveprime.gff.
+- When running Additional Step 1, these files are added:
 
-**3 Rnahybrid** 
-* Prefixputative_targets.tsv
-* Prefix_bsites.tsv
-* Prefix_finalresults.tsv
+**Functional_analysis/**: Differential results and heatmaps
 
-**4 Final results** 
-* HolomiRA_results.tsv
-* MAG_result_table_summary_miRNA_{phenotype}.tsv
-* MAG_result_table_summary_taxonomy_{phenotype}.tsv
-* venn_summary.txt
-  
-**5 Plots**
-* {phenotype}_Top_20_miRNAs_and_MAGs.png
-* MAG_Histograms.png
-* Venn_diagram_combined.png
+- When running Additional Step 2, these files are added:
+
+Grouped_Histograms.png
+Venn_diagram_combined.png
+venn_summary.txt
 
 ## Acknowledgments
 This research has been facilitated by the financial support of Brazillian institutions, namely FAPESP (Foundation for Research Support of the State of São Paulo), CAPES (Coordination for the Improvement of Higher Education Personnel), and CNPq (National Council for Scientific and Technological Development). The indispensable infrastructure and resources provided by UFSCar (Federal University of São Carlos) and EMBRAPA (Brazilian Agricultural Research Corporation), with particular emphasis on the Embrapa Pecuária Sudeste and Embrapa Informática Agropecuária units, played an integral role in enabling the execution of this work.
+
+## Citation
+
+If you use HolomiRA in your research, please cite:
+
+Bruscadin, J. et al. HolomiRA: a reproducible pipeline for miRNA binding site prediction in microbial genomes. (2024) GitHub: https://github.com/JBruscadin/HolomiRA
+
+
 
 

@@ -1,5 +1,23 @@
 #!/usr/bin/env Rscript
 
+# --- Install missing packages ---
+required_packages <- c("ggplot2", "reshape2", "dplyr", "VennDiagram", "grid", "futile.logger")
+missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+if (length(missing_packages)) {
+  install.packages(missing_packages, repos = "https://cloud.r-project.org")
+}
+
+# --- Load libraries ---
+suppressPackageStartupMessages({
+  library(stats)
+  library(ggplot2)
+  library(reshape2)
+  library(dplyr)
+  library(VennDiagram)
+  library(grid)
+  library(futile.logger)
+})
+
 if (length(commandArgs(trailingOnly = TRUE)) == 1 && commandArgs(trailingOnly = TRUE)[1] == "--help") {
   cat("Usage: Rscript comparative_statistical_analysis.R <input_data1> <dataset_name1> <input_data2> <dataset_name2> <sample_type> <abundance_threshold> <prevalence_threshold> <padj> <log_threshold> <color_data1> <color_data2> <heatmap_color>\n")
   cat("\nArguments:\n")
