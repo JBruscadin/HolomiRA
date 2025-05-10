@@ -2,15 +2,6 @@
 
 HolomiRA is a Snakemake-based pipeline for predicting host miRNA binding sites in microbial genomes. It automates all steps, from genome annotation to interaction prediction and functional enrichment, offering a user-friendly and fully reproducible workflow.
 
-#Overview
-
-HolomiRA enables:
-
-*Identification of host miRNA binding sites in microbial coding regions.
-*Evaluation of target accessibility using RNAup.
-*Functional annotation of affected genes using SUPER-FOCUS.
-*Comparative analysis between phenotypes or environments.
-
 ## Snakemake Installation
 1. Install Snakemake and Mamba
 
