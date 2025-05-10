@@ -30,6 +30,7 @@ For more details about Snakemake, refer to the [official documentation](https://
 git clone https://github.com/JBruscadin/HolomiRA.git
 ```
 ## Configuration
+
 Edit the file: Config/config.yaml
 
 Required parameters:
@@ -54,7 +55,8 @@ Optional parameters (with defaults):
 
 ```bash
 cd Superfocus
-unzip 90_clusters.zip -d 90_clusters/
+wget https://open.flinders.edu.au/ndownloader/files/44075237
+unzip mmseqs2_90.zip -d 90_clusters/
 superfocus_downloadDB -i 90_clusters/ -a diamond -c 90
 ```
 
@@ -89,6 +91,7 @@ For more information about cluster execution in Snakemake, refer to the [documen
 
 Usage:
 
+
 ./process_data.sh <subsystem_level_X.xls> <counts|relab> <sample_type>
 <dataset_name>
 
@@ -102,10 +105,12 @@ Rscript comparative_statistical_analysis.R <input_data1> <dataset_name1> <input_
 Rscript exclusive_functions.R <input_file> <dataset_name> <sample_type> <top>
 <color_graph>
 
+** This step uses default values for filtering: an abundance threshold of 0.01, a prevalence threshold of 0.2, and adjusted p-value ≤ 0.05 and a |log2 fold change| of at least 1.
+
 Practical exemplo:
 
 ```bash
-$ cd HolomiRA
+cd HolomiRA
 mkdir ./Results/Functional_analysis
 cd ./Results/Functional_analysis
 
@@ -114,11 +119,11 @@ bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/
 bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/function/microbial genomes_Rumen/output_subsystem_level_3.xls relab MAG Rumen
 
 #analyse_by_dataset
-Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R --input_file level_3_MAG_Feces_relab.txt --dataset_name Feces --sample_type MAG --abundance_threshold 0 --prevalence_threshold 0.2 --top 10 --color_data blue  
-Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R level_3_MAG_Rumen_relab.txt --dataset_name Rumen --sample_type MAG --abundance_threshold 0 --prevalence_threshold 0.2 --top 10 --color_data red
+Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R --input_file level_3_MAG_Feces_relab.txt --dataset_name Feces --sample_type MAG --abundance_threshold 0.01 --prevalence_threshold 0.2 --top 10 --color_data blue  
+Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R level_3_MAG_Rumen_relab.txt --dataset_name Rumen --sample_type MAG --abundance_threshold 0.01 --prevalence_threshold 0.2 --top 10 --color_data red
 
 #comparative_statistical_analysis
-Rscript ../../Additional_Steps/Functional_annotation/comparative_statistical_analysis.R --input_data1 level_3_MAG_Feces_relab.txt --input_data2 level_3_MAG_Rumen_relab.txt --dataset_name1 Feces --dataset_name2 Rumen --sample_type MAG --abundance_threshold 0 --prevalence_threshold 0.2 --padj 0.05 --log_threshold 1 --color_data1 "#FF5733" --color_data2 "#33FF57" --heatmap_color "purple"
+Rscript ../../Additional_Steps/Functional_annotation/comparative_statistical_analysis.R --input_data1 level_3_MAG_Feces_relab.txt --input_data2 level_3_MAG_Rumen_relab.txt --dataset_name1 Feces --dataset_name2 Rumen --sample_type MAG --abundance_threshold 0.01 --prevalence_threshold 0.2 --padj 0.05 --log_threshold 1 --color_data1 "#FF5733" --color_data2 "#33FF57" --heatmap_color "purple"
 
 #exclusive_functions
 Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R --input_file exclusive_functions_MAG_level_3_decrease_RME.txt --dataset_name decrease_RME --sample_type MAG --top 10 --color_graph green
@@ -135,6 +140,7 @@ python Additional_Steps/Comparison_species/venndiagram.py
 ```
 
 ## Output files
+
 Each subfolder in Results/ corresponds to a specific step. Example contents:
 
 **Annotation/**: Prokka results, GFF, CDS coordinates
@@ -157,6 +163,7 @@ Venn_diagram_combined.png
 venn_summary.txt
 
 ## Acknowledgments
+
 This research has been facilitated by the financial support of Brazillian institutions, namely FAPESP (Foundation for Research Support of the State of São Paulo), CAPES (Coordination for the Improvement of Higher Education Personnel), and CNPq (National Council for Scientific and Technological Development). The indispensable infrastructure and resources provided by UFSCar (Federal University of São Carlos) and EMBRAPA (Brazilian Agricultural Research Corporation), with particular emphasis on the Embrapa Pecuária Sudeste and Embrapa Informática Agropecuária units, played an integral role in enabling the execution of this work.
 
 ## Citation
