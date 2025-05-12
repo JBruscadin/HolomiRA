@@ -47,10 +47,11 @@ Optional parameters (with defaults):
 **HolomiRA uses DIAMOND + MMseqs2 clusters. Download and format**
 
 ```bash
+mkdir Superfocus
 cd Superfocus
-wget https://open.flinders.edu.au/ndownloader/files/44075237
-unzip mmseqs2_90.zip -d 90_clusters/
-superfocus_downloadDB -i 90_clusters/ -a diamond -c 90
+wget https://figshare.com/ndownloader/files/54459941?private_link=fb65bc6be0fb68ebbaf2
+unzip '54459941?private_link=fb65bc6be0fb68ebbaf2' -d 90_clusters/
+superfocus_downloadDB -i ./Superfocus -a diamond -c 90
 ```
 
 ## Running HolomiRA
