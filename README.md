@@ -54,6 +54,8 @@ unzip '54459941?private_link=fb65bc6be0fb68ebbaf2' -d 90_clusters/
 superfocus_downloadDB -i ./Superfocus -a diamond -c 90
 ```
 
+For other versions and databases - [SUPER-FOCUS](https://github.com/metageni/SUPER-FOCUS).
+
 ## Running HolomiRA
 
 Execute HolomiRA:
@@ -68,7 +70,7 @@ Examples for different clusters:
 snakemake -s Snakefile --cluster 'sbatch -t 60 --mem=2g -c 1' -j 10
 snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 ```
-For more information about cluster execution in Snakemake, refer to the [documentation]( https://snakemake.readthedocs.io/en/stable/executing/cluster.html).
+For more information about cluster execution in Snakemake, refer to the [documentation](https://snakemake.readthedocs.io/en/v7.19.1/executing/cluster.html).
 
 ## Processing steps
 
