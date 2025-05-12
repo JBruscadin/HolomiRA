@@ -148,11 +148,11 @@ Each subfolder in Results/ corresponds to a specific step. Example contents:
 * **Plots/**: miRNA-target genome visuals
 * **Function/**: SuperFocus output by phenotype
 
-- When running Additional Step 1, these files are added:
+When running Additional Step 1, these files are added:
 
 * **Functional_analysis/**: Differential results and heatmaps
 
-- When running Additional Step 2, these files are added: miRNA-target genome visuals
+When running Additional Step 2, these files are added: miRNA-target genome visuals
 
 ## Acknowledgments
 
