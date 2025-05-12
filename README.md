@@ -139,24 +139,20 @@ python Additional_Steps/Comparison_species/venndiagram.py
 
 Each subfolder in Results/ corresponds to a specific step. Example contents:
 
-**Annotation/**: Prokka results, GFF, CDS coordinates
-**Target_Fasta/**: CDS and filtered sequences
-**Rnahybrid/**: RNAHybrid output (putative target sites)
-**Structure/**: Pre-RNAup formatting files
-**RNAup/**: Accessibility results
-**Final_results/**: HolomiRA results + summary tables
-**Plots/**: miRNA-target genome visuals
-**Function/**: SuperFocus output by phenotype
+* **Annotation/**: Prokka results, GFF, CDS coordinates
+* **Target_Fasta/**: CDS and filtered sequences
+* **Rnahybrid/**: RNAHybrid output (putative target sites)
+* **Structure/**: Pre-RNAup formatting files
+* **RNAup/**: Accessibility results
+* **Final_results/**: HolomiRA results + summary tables
+* **Plots/**: miRNA-target genome visuals
+* **Function/**: SuperFocus output by phenotype
 
 - When running Additional Step 1, these files are added:
 
-**Functional_analysis/**: Differential results and heatmaps
+* **Functional_analysis/**: Differential results and heatmaps
 
-- When running Additional Step 2, these files are added:
-
-Grouped_Histograms.png
-Venn_diagram_combined.png
-venn_summary.txt
+- When running Additional Step 2, these files are added: miRNA-target genome visuals
 
 ## Acknowledgments
 
