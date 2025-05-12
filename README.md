@@ -2,7 +2,7 @@
 
 HolomiRA is a Snakemake-based pipeline for predicting host miRNA binding sites in microbial genomes. It automates all steps, from genome annotation to interaction prediction and functional enrichment, offering a user-friendly and fully reproducible workflow.
 
-## Snakemake Installation
+## HolomiRA Downloading and Setup 
 1. Install Snakemake and Mamba
 
 We recommend using mamba for efficient environment management:
@@ -22,13 +22,6 @@ conda activate HolomiRA
 
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
 
-## HolomiRA Downloading and Setup 
-
-**Clone the HoloMirA repository and set up the environment:
-
-```bash
-git clone https://github.com/JBruscadin/HolomiRA.git
-```
 ## Configuration
 
 Edit the file: Config/config.yaml
