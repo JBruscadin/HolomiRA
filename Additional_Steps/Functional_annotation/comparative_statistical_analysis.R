@@ -1,5 +1,11 @@
 #!/usr/bin/env Rscript
 
+# --- SETUP ---
+# Ensure user-level library path is used
+user_lib <- Sys.getenv("R_LIBS_USER")
+if (!dir.exists(user_lib)) dir.create(user_lib, recursive = TRUE)
+.libPaths(c(user_lib, .libPaths()))
+
 # --- Install missing packages ---
 required_packages <- c("ggplot2", "reshape2", "dplyr", "VennDiagram", "grid", "futile.logger")
 missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
