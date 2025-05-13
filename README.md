@@ -72,6 +72,8 @@ snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 ```
 For more information about cluster execution in Snakemake, refer to the [documentation](https://snakemake.readthedocs.io/en/v7.19.1/executing/cluster.html).
 
+* **Attention**: If error is given during SUPER-FOCUS analysis, please delete *m8 and its corresponding *.fasta and run snakemake again.
+  
 ## Processing steps
 
 **Step 1**: Predict CDS using Prokka
