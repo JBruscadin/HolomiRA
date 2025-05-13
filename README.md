@@ -76,11 +76,11 @@ For more information about cluster execution in Snakemake, refer to the [documen
   
 ## Processing steps
 
-**Step 1**: Predict CDS using Prokka
-**Step 2**: Extract target candidate regions
-**Step 3**: Predict miRNA binding (RNAHybrid + RNAup)
-**Step 4**: Summarize and visualize interactions
-**Step 5**: Perform functional enrichment (SUPER-FOCUS)
+* **Step 1**: Predict CDS using Prokka
+* **Step 2**: Extract target candidate regions
+* **Step 3**: Predict miRNA binding (RNAHybrid + RNAup)
+* **Step 4**: Summarize and visualize interactions
+* **Step 5**: Perform functional enrichment (SUPER-FOCUS)
 
 
 **Additional Steps** 
