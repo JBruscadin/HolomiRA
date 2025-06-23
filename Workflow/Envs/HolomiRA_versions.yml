@@ -1,3 +1,4 @@
+name: HolomiRA
 channels:
   - conda-forge
   - bioconda
@@ -5,10 +6,10 @@ channels:
 dependencies:
   - python=3.11
   - snakemake=7.32.3
-  - conda=24.7.1
-  - mamba
-  - diamond
+  - diamond=2.1.8
+  - unzip
   - pip
   - pip:
-      - superfocus
+      - superfocus==0.9.1
+
 
