@@ -104,7 +104,7 @@ wget https://figshare.com/ndownloader/files/54459941?private_link=fb65bc6be0fb68
 unzip 90_clusters.zip -d 90_clusters
 ```
 
-2. Fix directory structure (if necessary):
+2. Fix directory structure:
 ```bash
 if [ -d "90_clusters/90_clusters" ]; then
   mv 90_clusters/90_clusters/* 90_clusters/
@@ -121,7 +121,8 @@ For other versions and databases - [SUPER-FOCUS](https://github.com/metageni/SUP
 
 ## Running HolomiRA
 
-Execute HolomiRA:
+From the root directory of the HolomiRA repository (where the Workflow/Snakefile is located), run:
+
 ```bash
 snakemake -s Workflow/Snakefile --use-conda --cores N 
 ```
