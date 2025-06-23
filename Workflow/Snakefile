@@ -34,7 +34,7 @@ rule all:
         f"{OUT_DIR}/function/temp_concat_end_MAG",
         f"{OUT_DIR}/function/temp_concat_end_miRNA",
         f"{OUT_DIR}/function/output_all_levels_and_function_done_mags.txt",
-        f"{OUT_DIR}/function/output_all_levels_and_function_done_mirna.txt"
+        #f"{OUT_DIR}/function/output_all_levels_and_function_done_mirna.txt"
         
 rule annotate_prokka:
 	input: FASTA_DIR+"{sample}.fa"
@@ -294,21 +294,21 @@ rule run_superfocus_MAG:
         touch {output}
         """
 
-rule run_superfocus_miRNA:
-    input:
-        config["out_dir"] + "/function/temp_concat_end_miRNA"  
-    output:
-        config["out_dir"] + "/function/output_all_levels_and_function_done_mirna.txt"
-    params:
-        out_dir = config["out_dir"]
-    shell:
-        """        
-        for dir in {params.out_dir}/function/miRNA_*; do
-            
-            if [ -d "$dir" ]; then
-                echo "Processing $dir"
-                superfocus -q $dir -dir $dir -a diamond
-            fi
-        done
-        touch {output}
-        """
+#rule run_superfocus_miRNA:
+#    input:
+#       config["out_dir"] + "/function/temp_concat_end_miRNA"  
+#    output:
+#        config["out_dir"] + "/function/output_all_levels_and_function_done_mirna.txt"
+#    params:
+#        out_dir = config["out_dir"]
+#    shell:
+#        """        
+#        for dir in {params.out_dir}/function/miRNA_*; do
+#            
+#            if [ -d "$dir" ]; then
+#                echo "Processing $dir"
+#                superfocus -q $dir -dir $dir -a diamond
+#            fi
+#        done
+#        touch {output}
+#       """
