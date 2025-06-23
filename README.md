@@ -35,10 +35,32 @@ conda activate HolomiRA
 ```
 
 4. Check software versions
-After activating the environment, check that the required tools are correctly installed:
+After activating the environment, check that all required tools are correctly installed and meet the minimum recommended versions:
+* Snakemake	≥ 7.32.3
+* Mamba	≥ 1.5.7 (if used)
+* Conda	≥ 24.7.0
+* Prokka	1.14.6
+* Prodigal	2.6.3
+* RNAHybrid	2.1.2
+* RNAup / ViennaRNA	2.5.1
+* SUPER-FOCUS	0.34
+* DIAMOND	0.9.14
+* unzip	Any recent version (tested with unzip 6.0)
+
+If any tool does not meet the recommended version, please update your Conda environment or install the correct version manually.
+
+You can check tool versions with:
 ```shell
-conda env create -f Workflow/Envs/HolomiRA_versions.yml
-conda activate HolomiRA
+snakemake --version
+conda --version
+mamba --version              # Only if you installed Mamba
+prokka --version
+prodigal --version
+RNAhybrid -h                 # Version info is displayed in the header
+RNAup -V
+superfocus --version
+diamond --version
+unzip -v
 ```
 
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
