@@ -104,14 +104,6 @@ wget https://figshare.com/ndownloader/files/54459941?private_link=fb65bc6be0fb68
 unzip 90_clusters.zip -d 90_clusters
 ```
 
-2. Fix directory structure:
-```bash
-if [ -d "90_clusters/90_clusters" ]; then
-  mv 90_clusters/90_clusters/* 90_clusters/
-  rmdir 90_clusters/90_clusters
-fi
-```
-
 3. Download and format the SUPER-FOCUS database:
 ```bash
 superfocus_downloadDB -i 90_clusters/ -a diamond -c 90
