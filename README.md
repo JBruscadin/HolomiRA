@@ -2,21 +2,42 @@
 
 HolomiRA is a Snakemake-based pipeline for predicting host miRNA binding sites in microbial genomes. It automates all steps, from genome annotation to interaction prediction and functional enrichment, offering a user-friendly and fully reproducible workflow.
 
-## HolomiRA Downloading and Setup 
-1. Install Snakemake and Mamba
-
-We recommend using mamba for efficient environment management:
-
-```shell
-conda install -n base -c conda-forge mamba
-```
-
-2. Clone the repository and set up the environment
+## Installation and Setup
+1. Clone the repository
 
 ```shell
 git clone https://github.com/JBruscadin/HolomiRA.git
 cd HolomiRA
+```
+
+2. Install Conda (and optionally Mamba)
+HolomiRA uses Conda environments for dependency management.
+We recommend installing Mamba for faster and more reliable environment resolution.
+If you don’t have Mamba installed yet, you can install it globally (outside any Conda environment) with:
+
+```shell
+conda install -c conda-forge mamba
+```
+*If you prefer, you can use Conda alone without Mamba.
+
+3. Create and activate the HolomiRA environment
+
+Using Mamba (recommended for speed):
+```shell
 mamba env create -f Workflow/Envs/HolomiRA_versions.yml
+conda activate HolomiRA
+```
+
+Or using Conda (if Mamba is not available):
+```shell
+conda env create -f Workflow/Envs/HolomiRA_versions.yml
+conda activate HolomiRA
+```
+
+4. Check software versions
+After activating the environment, check that the required tools are correctly installed:
+```shell
+conda env create -f Workflow/Envs/HolomiRA_versions.yml
 conda activate HolomiRA
 ```
 
@@ -24,13 +45,17 @@ For more details about Snakemake, refer to the [official documentation](https://
 
 ## Configuration
 
-Edit the file: Config/config.yaml
+Edit the file: 
+
+```shell
+Config/config.yaml
+```
 
 Required parameters:
 
-* **fasta_dir:** Path to the directory containing genomes'fasta files.
-* **ref_mir:** Path for the host miRNA sequences'fasta.
-* **sample_tab:** Sample list (one sample ID per line) 
+* **fasta_dir:** Path to the directory containing genome FASTA files.
+* **ref_mir:** Path to the host miRNA sequences FASTA file.
+* **sample_tab:** Sample list (one sample ID per line). 
 * **id:** Metadata table with genome ID, taxonomy, etc.
 
 
@@ -44,14 +69,30 @@ Optional parameters (with defaults):
 * **DGopen_cutoff:** RNAup ΔG total cutoff for accessibility (default: -10)
 
 
-**HolomiRA uses DIAMOND + MMseqs2 clusters. Download and format**
+**SuperFocus Database Preparation**
+HolomiRA uses DIAMOND + MMseqs2 clusters from SUPER-FOCUS for functional annotation.
 
+Steps:
+
+1. Create a directory and download the database:
 ```bash
 mkdir Superfocus
 cd Superfocus
-wget https://figshare.com/ndownloader/files/54459941?private_link=fb65bc6be0fb68ebbaf2
-unzip '54459941?private_link=fb65bc6be0fb68ebbaf2' -d 90_clusters/
-superfocus_downloadDB -i ./Superfocus -a diamond -c 90
+wget https://figshare.com/ndownloader/files/54459941?private_link=fb65bc6be0fb68ebbaf2 -O 90_clusters.zip
+unzip 90_clusters.zip -d 90_clusters
+```
+
+2. Fix directory structure (if necessary):
+```bash
+if [ -d "90_clusters/90_clusters" ]; then
+  mv 90_clusters/90_clusters/* 90_clusters/
+  rmdir 90_clusters/90_clusters
+fi
+```
+
+3. Download and format the SUPER-FOCUS database:
+```bash
+superfocus_downloadDB -i 90_clusters/ -a diamond -c 90
 ```
 
 For other versions and databases - [SUPER-FOCUS](https://github.com/metageni/SUPER-FOCUS).
@@ -60,9 +101,10 @@ For other versions and databases - [SUPER-FOCUS](https://github.com/metageni/SUP
 
 Execute HolomiRA:
 ```bash
-cd HolomiRA
 snakemake -s Workflow/Snakefile --use-conda --cores N 
 ```
+Where *N* is the number of CPU cores you want to use.
+
 If your server supports a cluster system for parallel job execution, you can use these example commands (customize according to your resources):
 
 Examples for different clusters:
@@ -72,9 +114,9 @@ snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 ```
 For more information about cluster execution in Snakemake, refer to the [documentation](https://snakemake.readthedocs.io/en/v7.19.1/executing/cluster.html).
 
-* **Attention**: If error is given during SUPER-FOCUS analysis, please delete *m8 and its corresponding *.fasta and run snakemake again.
-  
-## Processing steps
+* **Attention**: If you encounter errors during SUPER-FOCUS steps, please delete the affected .m8 and .fasta files and re-run Snakemake.
+
+## Workflow Steps
 
 * **Step 1**: Predict CDS using Prokka
 * **Step 2**: Extract target candidate regions
@@ -87,25 +129,11 @@ For more information about cluster execution in Snakemake, refer to the [documen
 
 -- Additional Step 1 - Functional Enrichment Analysis (Extra Visualizations)
 
-Usage:
-
-
-./process_data.sh <subsystem_level_X.xls> <counts|relab> <sample_type>
-<dataset_name>
-
-Rscript analyse_by_dataset.R <input_file> <dataset_name> <sample_type>
-<abundance_threshold> <prevalence_threshold> <top> <color_data>
-
-Rscript comparative_statistical_analysis.R <input_data1> <dataset_name1> <input_data2>
-<dataset_name2> <sample_type> <abundance_threshold> <prevalence_threshold> <padj>
-<log_threshold> <color_data1> <color_data2> <heatmap_color>
-
-Rscript exclusive_functions.R <input_file> <dataset_name> <sample_type> <top>
-<color_graph>
+For complete description of parameters, please see [Functional annotation documentation](Additional_Steps/Functional_annotation/Documentation).
 
 ** This step uses default values for filtering: an abundance threshold of 0.01, a prevalence threshold of 0.2, and adjusted p-value ≤ 0.05 and a |log2 fold change| of at least 1.
 
-Practical exemplo:
+Example workflow:
 
 ```bash
 cd HolomiRA
@@ -128,9 +156,11 @@ Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R --inp
 Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R --input_file exclusive_functions_MAG_level_3_increase_RME.txt --dataset_name increase_RME  --sample_type MAG --top 10 --color_graph red
 
 ```
-For complete description of parameters, please see [Functional annotation documentation](Additional_Steps/Functional_annotation/Documentation).
+
 
 -- Additional Step 2 - Comparative Analysis Between Results
+For cross-sample or species comparisons
+
 ```bash
 cd HolomiRA
 python Additional_Steps/Comparison_species/histogram.py
