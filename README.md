@@ -13,7 +13,7 @@ cd HolomiRA
 2. Create and activate the HolomiRA environment
 
 HolomiRA uses Conda environments for dependency management.
-If necessary, install Conda (and optionally Mamba) before creating and activating the HolomiRA environment.
+If necessary, install Conda (≥ 24.7.0) (and optionally Mamba) before creating and activating the HolomiRA environment.
 
 ```shell
 conda env create -f Workflow/Envs/HolomiRA_versions.yml
@@ -44,20 +44,6 @@ Check that all required tools are correctly installed and meet the minimum recom
 
 If any tool does not meet the recommended version, please update your Conda environment or install the correct version manually.
 
-You can check tool versions with:
-```shell
-snakemake --version
-conda --version
-mamba --version              # Only if you installed Mamba
-prokka --version
-prodigal -v
-RNAhybrid -h                 # Version info is displayed in the header
-RNAup -V
-superfocus --version
-diamond --version
-unzip -v
-```
-
 For more details about Snakemake, refer to the [official documentation](https://snakemake.readthedocs.io/en/stable/index.html).
 
 ## Configuration
@@ -87,9 +73,10 @@ Optional parameters (with defaults):
 
 
 **SuperFocus Database Preparation**
+
 HolomiRA uses DIAMOND + MMseqs2 clusters from SUPER-FOCUS for functional annotation.
 
-we recommend downloading the 90_clusters.zip file manually via your web browser from the following link:
+We recommend downloading the 90_clusters.zip file manually via your web browser from the following link:
 
 ```bash
 https://doi.org/10.6084/m9.figshare.29040107.v1
