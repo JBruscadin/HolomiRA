@@ -9,7 +9,7 @@ dependencies:
   - prokka=1.14.6
   - prodigal=2.6.3
   - rnahybrid=2.1.2
-  - viennarna=2.5.1
+  - viennarna=2.4.18
   - diamond=2.1.8
   - unzip
   - pip
