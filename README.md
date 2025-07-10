@@ -16,7 +16,7 @@ We recommend installing Mamba for faster and more reliable environment resolutio
 If you don’t have Mamba installed yet, you can install it globally (outside any Conda environment) with:
 
 ```shell
-conda install -c conda-forge mamba
+conda install mamba -n base -c conda-forge
 ```
 *If you prefer, you can use Conda alone without Mamba.
 
