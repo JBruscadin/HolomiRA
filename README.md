@@ -32,14 +32,14 @@ conda activate HolomiRA
 Check that all required tools are correctly installed and meet the minimum recommended versions:
 
 * Snakemake	≥ 7.32.3
-* Mamba	≥ 1.5.7 (if used)
 * Conda	≥ 24.7.0
+* Mamba	≥ 1.5.7 (if used)
 * Prokka	1.14.6
 * Prodigal	2.6.3
 * RNAHybrid	2.1.2
 * RNAup / ViennaRNA	2.5.1
 * SUPER-FOCUS	1.4.1
-* DIAMOND	0.9.14
+* DIAMOND	2.1.8
 * unzip	Any recent version (tested with unzip 6.0)
 
 If any tool does not meet the recommended version, please update your Conda environment or install the correct version manually.
@@ -50,7 +50,7 @@ snakemake --version
 conda --version
 mamba --version              # Only if you installed Mamba
 prokka --version
-prodigal --version
+prodigal -v
 RNAhybrid -h                 # Version info is displayed in the header
 RNAup -V
 superfocus --version
@@ -89,13 +89,18 @@ Optional parameters (with defaults):
 **SuperFocus Database Preparation**
 HolomiRA uses DIAMOND + MMseqs2 clusters from SUPER-FOCUS for functional annotation.
 
-Steps:
+we recommend downloading the 90_clusters.zip file manually via your web browser from the following link:
 
-1. Create a directory and download the database:
 ```bash
-mkdir Superfocus
+https://doi.org/10.6084/m9.figshare.29040107.v1
+```
+
+After downloading, place the file inside the Superfocus directory and unzip it:
+
+```bash
+mkdir -p Superfocus
+mv /path/to/90_clusters.zip Superfocus/
 cd Superfocus
-wget https://figshare.com/ndownloader/files/54459941?private_link=fb65bc6be0fb68ebbaf2 -O 90_clusters.zip
 unzip 90_clusters.zip -d 90_clusters
 ```
 
