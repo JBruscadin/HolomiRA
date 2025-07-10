@@ -28,7 +28,9 @@ conda activate HolomiRA
 ```
 
 3. Check software versions
-After activating the environment. Check that all required tools are correctly installed and meet the minimum recommended versions:
+
+Check that all required tools are correctly installed and meet the minimum recommended versions:
+
 * Snakemake	≥ 7.32.3
 * Mamba	≥ 1.5.7 (if used)
 * Conda	≥ 24.7.0
