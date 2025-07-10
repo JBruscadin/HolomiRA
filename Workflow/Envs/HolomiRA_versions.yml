@@ -6,10 +6,13 @@ channels:
 dependencies:
   - python=3.11
   - snakemake=7.32.3
-  - diamond=2.1.8
+  - prokka=1.14.6
+  - prodigal=2.6.3
+  - rnahybrid=2.1.2
+  - viennarna=2.5.1
+  - diamond=0.9.14
   - unzip
   - pip
   - pip:
       - superfocus==1.6
-
 
