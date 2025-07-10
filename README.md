@@ -10,38 +10,25 @@ git clone https://github.com/JBruscadin/HolomiRA.git
 cd HolomiRA
 ```
 
-2. Install Conda (and optionally Mamba)
+2. Create and activate the HolomiRA environment
+
 HolomiRA uses Conda environments for dependency management.
-We recommend installing Mamba for faster and more reliable environment resolution.
-If you don’t have Mamba installed yet, you can install it globally (outside any Conda environment) with:
+If necessary, ynstall Conda (and optionally Mamba) before create and activate the HolomiRA environment
 
-```shell
-## prioritize 'conda-forge' channel
-conda config --add channels conda-forge
-
-## update existing packages to use 'conda-forge' channel
-conda update -n base --all
-
-## install 'mamba'
-conda install -n base mamba
-```
-*If you prefer, you can use Conda alone without Mamba.
-
-3. Create and activate the HolomiRA environment
-
-Using Mamba (recommended for speed):
-```shell
-mamba env create -f Workflow/Envs/HolomiRA_versions.yml
-conda activate HolomiRA
-```
-
-Or using Conda (if Mamba is not available):
+Conda:
 ```shell
 conda env create -f Workflow/Envs/HolomiRA_versions.yml
 conda activate HolomiRA
 ```
 
-4. Check software versions
+If Mamba is  available, we recommend it for faster and more reliable environment resolution.
+
+```shell
+mamba env create -f Workflow/Envs/HolomiRA_versions.yml
+conda activate HolomiRA
+```
+
+3. Check software versions
 After activating the environment. Check that all required tools are correctly installed and meet the minimum recommended versions:
 * Snakemake	≥ 7.32.3
 * Mamba	≥ 1.5.7 (if used)
