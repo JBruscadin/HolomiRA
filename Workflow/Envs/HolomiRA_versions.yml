@@ -4,15 +4,16 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - python=3.11
+  - python=3.9
   - snakemake=7.32.3
   - prokka=1.14.6
   - prodigal=2.6.3
   - rnahybrid=2.1.2
   - viennarna=2.5.1
-  - diamond=0.9.14
+  - diamond=2.1.8
   - unzip
   - pip
   - pip:
       - superfocus==1.6
+
 
