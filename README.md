@@ -38,7 +38,7 @@ Check that all required tools are correctly installed and meet the minimum recom
 * Prodigal	2.6.3
 * RNAHybrid	2.1.2
 * RNAup / ViennaRNA	2.5.1
-* SUPER-FOCUS	1.6
+* SUPER-FOCUS	1.4.1
 * DIAMOND	0.9.14
 * unzip	Any recent version (tested with unzip 6.0)
 
