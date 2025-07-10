@@ -13,15 +13,14 @@ cd HolomiRA
 2. Create and activate the HolomiRA environment
 
 HolomiRA uses Conda environments for dependency management.
-If necessary, ynstall Conda (and optionally Mamba) before create and activate the HolomiRA environment
+If necessary, install Conda (and optionally Mamba) before creating and activating the HolomiRA environment.
 
-Conda:
 ```shell
 conda env create -f Workflow/Envs/HolomiRA_versions.yml
 conda activate HolomiRA
 ```
 
-If Mamba is  available, we recommend it for faster and more reliable environment resolution.
+If Mamba is available, we recommend using it for faster and more reliable environment resolution.
 
 ```shell
 mamba env create -f Workflow/Envs/HolomiRA_versions.yml
