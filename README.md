@@ -93,7 +93,9 @@ unzip 90_clusters.zip -d 90_clusters
 
 3. Download and format the SUPER-FOCUS database:
 ```bash
-superfocus_downloadDB --input 90_clusters/ -d 90_clusters/ --aligner diamond --clusters 90
+#superfocus_downloadDB --input 90_clusters/ -d 90_clusters/ --aligner diamond --clusters 90
+superfocus_downloadDB   --input 90_clusters/   -d $CONDA_PREFIX/lib/python3.9/site-packages/superfocus_app/   --aligner diamond   --clusters 90
+
 ```
 
 For other versions and databases - [SUPER-FOCUS](https://github.com/metageni/SUPER-FOCUS).
