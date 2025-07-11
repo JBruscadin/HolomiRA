@@ -7,4 +7,6 @@ dependencies:
   - python=3.9
   - viennarna=2.5.1
   - pandas=1.4.4
-  - biopython=1.78
+  - pip
+  - pip:
+      - biopython
