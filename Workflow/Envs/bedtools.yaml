@@ -8,3 +8,6 @@ dependencies:
   - python=3.8
   - pybedtools
   - pandas
+  - pip
+  - pip:
+      - cython
