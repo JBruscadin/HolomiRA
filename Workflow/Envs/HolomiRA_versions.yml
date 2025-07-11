@@ -12,6 +12,7 @@ dependencies:
   - viennarna=2.4.18
   - diamond=2.1.8
   - unzip
+  - seaborn
   - pip
   - pip:
       - superfocus==1.4.1
