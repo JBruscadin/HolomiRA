@@ -6,6 +6,7 @@ channels:
 dependencies:
   - bedtools=2.30.0
   - python=3.9
+  - pybedtools
   - pandas
   - pip
   - pip:
