@@ -103,7 +103,7 @@ For other versions and databases - [SUPER-FOCUS](https://github.com/metageni/SUP
 From the root directory of the HolomiRA repository (where the Workflow/Snakefile is located), run:
 
 ```bash
-snakemake -s Workflow/Snakefile --use-conda --cores N 
+snakemake -s Workflow/Snakefile --conda-frontend conda --cores N 
 ```
 Where *N* is the number of CPU cores you want to use.
 
@@ -116,7 +116,8 @@ snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 ```
 For more information about cluster execution in Snakemake, refer to the [documentation](https://snakemake.readthedocs.io/en/v7.19.1/executing/cluster.html).
 
-* **Attention**: If you encounter errors during SUPER-FOCUS steps, please delete the affected .m8 and .fasta files and re-run Snakemake.
+* **Note 1**: RNAup can be memory-intensive when analyzing long sequences. If you encounter segmentation faults or buffer overflow errors (core dumped), try running the analysis on a machine with more available RAM.
+ **Note 2**: If you encounter errors during SUPER-FOCUS steps, please delete the affected .m8 and .fasta files and re-run Snakemake.
 
 ## Workflow Steps
 
