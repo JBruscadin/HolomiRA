@@ -19,5 +19,6 @@ dependencies:
       - superfocus==1.4.1
       - pybedtools
       - biopython
+      - matplotlib-venn
 
 
