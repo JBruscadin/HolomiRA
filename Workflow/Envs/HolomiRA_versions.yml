@@ -13,9 +13,11 @@ dependencies:
   - diamond=2.1.8
   - unzip
   - seaborn
+  - biopython
   - pip
   - pip:
       - superfocus==1.4.1
       - pybedtools
+      - biopython
 
 
