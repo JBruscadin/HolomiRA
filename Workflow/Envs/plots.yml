@@ -46,6 +46,7 @@ dependencies:
 - libzlib=1.2.13=hd590300_5
 - matplotlib-base=3.7.2=py311h54ef318_0
 - matplotlib-venn=0.11.9=pyhd8ed1ab_0
+- matplotlib-venn
 - munkres=1.1.4=pyh9f0ad1d_0
 - ncurses=6.4=hcb278e6_0
 - numpy=1.25.2=py311h64a7726_0
