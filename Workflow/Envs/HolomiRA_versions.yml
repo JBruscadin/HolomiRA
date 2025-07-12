@@ -16,5 +16,6 @@ dependencies:
   - pip
   - pip:
       - superfocus==1.4.1
+      - pybedtools
 
 
