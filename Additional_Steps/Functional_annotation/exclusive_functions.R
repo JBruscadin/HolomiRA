@@ -1,12 +1,5 @@
 #!/usr/bin/env Rscript
 
-# --- Install missing packages ---
-required_packages <- c("ggplot2", "scales", "stringr")
-missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
-if (length(missing_packages)) {
-  install.packages(missing_packages, repos = "https://cloud.r-project.org")
-}
-
 # --- Load libraries ---
 suppressPackageStartupMessages({
   library(ggplot2)
