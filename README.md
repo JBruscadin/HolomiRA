@@ -165,7 +165,7 @@ Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R exclu
 For cross-sample or species comparisons
 
 ```bash
-cd HolomiRA
+cd ../../HolomiRA
 python Additional_Steps/Comparison_species/histogram.py
 python Additional_Steps/Comparison_species/venndiagram.py
 ```
