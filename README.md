@@ -93,7 +93,6 @@ unzip 90_clusters.zip -d 90_clusters
 
 3. Download and format the SUPER-FOCUS database:
 ```bash
-#superfocus_downloadDB --input 90_clusters/ -d 90_clusters/ --aligner diamond --clusters 90
 superfocus_downloadDB   --input 90_clusters/   -d $CONDA_PREFIX/lib/python3.9/site-packages/superfocus_app/   --aligner diamond   --clusters 90
 
 ```
@@ -146,22 +145,21 @@ mkdir ./Results/Functional_analysis
 cd ./Results/Functional_analysis
 
 #process_data
-bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/function/microbial genomes_Feces/output_subsystem_level_3.xls relab MAG Feces
-bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/function/microbial genomes_Rumen/output_subsystem_level_3.xls relab MAG Rumen
+bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/function/MAGs_Feces/output_subsystem_level_3.xls relab MAG Feces
+bash ../../Additional_Steps/Functional_annotation/process_data.sh ../../Results/function/MAGs_Rumen/output_subsystem_level_3.xls relab MAG Rumen
 
 #analyse_by_dataset
-Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R --input_file level_3_MAG_Feces_relab.txt --dataset_name Feces --sample_type MAG --abundance_threshold 0.01 --prevalence_threshold 0.2 --top 10 --color_data blue  
-Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R level_3_MAG_Rumen_relab.txt --dataset_name Rumen --sample_type MAG --abundance_threshold 0.01 --prevalence_threshold 0.2 --top 10 --color_data red
+Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R level_3_MAG_Feces_relab.txt Feces MAG 0.01 0.2 10 blue  
+Rscript ../../Additional_Steps/Functional_annotation/analyse_by_dataset.R level_3_MAG_Rumen_relab.txt Rumen MAG 0.01 0.2 10 red
 
 #comparative_statistical_analysis
-Rscript ../../Additional_Steps/Functional_annotation/comparative_statistical_analysis.R --input_data1 level_3_MAG_Feces_relab.txt --input_data2 level_3_MAG_Rumen_relab.txt --dataset_name1 Feces --dataset_name2 Rumen --sample_type MAG --abundance_threshold 0.01 --prevalence_threshold 0.2 --padj 0.05 --log_threshold 1 --color_data1 "#FF5733" --color_data2 "#33FF57" --heatmap_color "purple"
+Rscript ../../Additional_Steps/Functional_annotation/comparative_statistical_analysis.R level_3_MAG_Feces_relab.txt Feces level_3_MAG_Rumen_relab.txt Rumen MAG 0.01 0.2 0.05 1 "#FF5733" "#33FF57" "purple"
 
 #exclusive_functions
-Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R --input_file exclusive_functions_MAG_level_3_decrease_RME.txt --dataset_name decrease_RME --sample_type MAG --top 10 --color_graph green
-Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R --input_file exclusive_functions_MAG_level_3_increase_RME.txt --dataset_name increase_RME  --sample_type MAG --top 10 --color_graph red
+Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R exclusive_functions_MAG_level_3_Feces.txt Feces MAG 10 green
+Rscript ../../Additional_Steps/Functional_annotation/exclusive_functions.R exclusive_functions_MAG_level_3_Rumen.txt Rumen MAG 10 red
 
 ```
-
 
 -- Additional Step 2 - Comparative Analysis Between Results
 For cross-sample or species comparisons
