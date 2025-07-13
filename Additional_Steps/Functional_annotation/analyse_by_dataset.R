@@ -1,12 +1,5 @@
 # analyse_by_dataset.R
 
-# Auto-install required packages if missing
-packages_needed <- c("ggplot2", "scales")
-packages_missing <- packages_needed[!(packages_needed %in% installed.packages()[,"Package"])]
-if (length(packages_missing)) {
-  install.packages(packages_missing, repos = "https://cloud.r-project.org")
-}
-
 # Load packages
 suppressPackageStartupMessages({
   library(ggplot2)
