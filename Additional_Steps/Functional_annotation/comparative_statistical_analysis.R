@@ -6,13 +6,6 @@ user_lib <- Sys.getenv("R_LIBS_USER")
 if (!dir.exists(user_lib)) dir.create(user_lib, recursive = TRUE)
 .libPaths(c(user_lib, .libPaths()))
 
-# --- Install missing packages ---
-required_packages <- c("ggplot2", "reshape2", "dplyr", "VennDiagram", "grid", "futile.logger")
-missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
-if (length(missing_packages)) {
-  install.packages(missing_packages, repos = "https://cloud.r-project.org")
-}
-
 # --- Load libraries ---
 suppressPackageStartupMessages({
   library(stats)
