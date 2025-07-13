@@ -4,10 +4,8 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bedtools=2.30.0
   - python=3.9
+  - bedtools=2.30.0
+  - pybedtools
   - pandas
-  - pip
-  - pip:
-      - cython
-      - pybedtools
+  - cython
