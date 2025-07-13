@@ -36,7 +36,7 @@ dependencies:
   # pip
   - pip
   - pip:
-      - superfocus
+      - superfocus==1.4.1
 
 
 
