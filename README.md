@@ -32,7 +32,7 @@ conda activate HolomiRA
 Check that all required tools are correctly installed and meet the minimum recommended versions:
 
 * Snakemake	≥ 7.32.3
-* Conda	≥ 24.7.0
+* Conda	≥ 24.1.0
 * Mamba	≥ 1.5.7 (if used)
 * Prokka	1.14.6
 * Prodigal	2.6.3
