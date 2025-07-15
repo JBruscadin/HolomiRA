@@ -118,7 +118,25 @@ snakemake -s Snakefile --cluster 'qsub -cwd -N HoloMira' -j 10
 For more information about cluster execution in Snakemake, refer to the [documentation](https://snakemake.readthedocs.io/en/v7.19.1/executing/cluster.html).
 
 * **Note 1**: RNAup can be memory-intensive when analyzing long sequences. If you encounter segmentation faults or buffer overflow errors (core dumped), try running the analysis on a machine with more available RAM.
- **Note 2**: If you encounter errors during SUPER-FOCUS steps, please delete the affected .m8 and .fasta files and re-run Snakemake.
+* **Note 2**: If you encounter errors during SUPER-FOCUS steps, please delete the affected .m8 and .fasta files and re-run Snakemake.
+* **Note 3**: Possible Error: `MissingOutputException`
+
+If you encounter an error like:
+> **Job completed successfully, but some output files are missing.**
+This is usually caused by **filesystem latency**, especially in **cluster environments** or **NFS systems**.
+
+✅ **Solution**: Increase the file system wait time using the `--latency-wait` parameter. For example:
+
+```bash
+snakemake -s Workflow/Snakefile --cores N --latency-wait 60
+```
+If the problem persists, increase the value to 120 or more.
+
+💡 Why this happens: Newly created files might take a few seconds to become visible to the system. Snakemake checks too quickly and assumes the files are missing.
+
+java
+Copiar
+Editar
 
 ## Workflow Steps
 
