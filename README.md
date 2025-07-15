@@ -133,9 +133,6 @@ For more information about cluster execution in Snakemake, refer to the [documen
     If the problem persists, increase the value to 120 or more.
     💡 Why this happens: Newly created files might take a few seconds to become visible to the system. Snakemake checks too quickly and assumes the files are missing.
 
-java
-Copiar
-Editar
 
 ## Workflow Steps
 
