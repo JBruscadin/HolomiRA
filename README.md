@@ -121,18 +121,17 @@ For more information about cluster execution in Snakemake, refer to the [documen
 * **Note 2**: If you encounter errors during SUPER-FOCUS steps, please delete the affected .m8 and .fasta files and re-run Snakemake.
 * **Note 3**: Possible Error: `MissingOutputException`
 
-If you encounter an error like:
-> **Job completed successfully, but some output files are missing.**
-This is usually caused by **filesystem latency**, especially in **cluster environments** or **NFS systems**.
+    If you encounter an error like:
+    > **Job completed successfully, but some output files are missing.**
+    This is usually caused by **filesystem latency**, especially in **cluster environments** or **NFS systems**.
 
-✅ **Solution**: Increase the file system wait time using the `--latency-wait` parameter. For example:
+    ✅ **Solution**: Increase the file system wait time using the `--latency-wait` parameter. For example:
 
-```bash
-snakemake -s Workflow/Snakefile --cores N --latency-wait 60
-```
-If the problem persists, increase the value to 120 or more.
-
-💡 Why this happens: Newly created files might take a few seconds to become visible to the system. Snakemake checks too quickly and assumes the files are missing.
+    ```bash
+    snakemake -s Workflow/Snakefile --cores N --latency-wait 60
+    ```
+    If the problem persists, increase the value to 120 or more.
+    💡 Why this happens: Newly created files might take a few seconds to become visible to the system. Snakemake checks too quickly and assumes the files are missing.
 
 java
 Copiar
